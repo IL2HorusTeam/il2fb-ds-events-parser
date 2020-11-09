@@ -1,0 +1,1 @@
+-e git+https://github.com/IL2HorusTeam/il2fb-ds-events.git#egg=il2fb-ds-events==1.0.0a0
