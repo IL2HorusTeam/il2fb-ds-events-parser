@@ -8,7 +8,6 @@ from subprocess import check_output
 
 from typing import List
 from typing import Optional
-from typing import Text
 from typing import Tuple
 
 
@@ -19,7 +18,7 @@ version_file_path = __here__ / "il2fb" / "ds" / "events_parser" / "version.py"
 exec(compile(version_file_path.read_text(), version_file_path, "exec"))
 
 
-def maybe_get_shell_output(command: Text) -> Text:
+def maybe_get_shell_output(command: str) -> str:
   try:
     args = shlex.split(command)
     with open(os.devnull, "w") as devnull:
@@ -28,15 +27,15 @@ def maybe_get_shell_output(command: Text) -> Text:
     pass
 
 
-def maybe_get_current_branch_name() -> Optional[Text]:
+def maybe_get_current_branch_name() -> Optional[str]:
   return maybe_get_shell_output("git rev-parse --abbrev-ref HEAD")
 
 
-def maybe_get_current_commit_hash() -> Optional[Text]:
+def maybe_get_current_commit_hash() -> Optional[str]:
   return maybe_get_shell_output("git rev-parse --short HEAD")
 
 
-def parse_requirements(file_path: Path) -> Tuple[List[Text], List[Text]]:
+def parse_requirements(file_path: Path) -> Tuple[List[str], List[str]]:
   requirements, dependencies = list(), list()
 
   with file_path.open("rt") as f:
@@ -133,8 +132,7 @@ setup(
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries",
   ],
 
