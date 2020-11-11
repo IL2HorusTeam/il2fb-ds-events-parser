@@ -1,6 +1,15 @@
+import sys
+
 from dataclasses import dataclass
 from dataclasses import field
 
+if sys.version_info < (3, 9):
+  from typing import Container
+else:
+  from collections.abc import Container
+
+from typing import Any
+from typing import Dict
 from typing import Optional
 from typing import TypeVar
 
@@ -29,7 +38,7 @@ class ParsedEvent(EventBase):
   line: str
   src:  EVT_SRC
 
-  def to_primitive(self, excludes: Optional[Container] = None) -> Dict[str, Any]:
+  def to_primitive(self, excludes: Optional[Container[str]] = None) -> Dict[str, Any]:
     """
     Redefines `to_primitive()` of the parent class.
 
