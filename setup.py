@@ -115,7 +115,7 @@ setup(
     "il2fb.ds",
   ],
 
-  python_requires=">=3.7",
+  python_requires=">=3.8",
   dependency_links=list(set(itertools.chain(
     INSTALL_DEPENDENCIES,
     # SETUP_DEPENDENCIES,
