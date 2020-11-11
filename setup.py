@@ -84,9 +84,9 @@ INSTALL_REQUIREMENTS, INSTALL_DEPENDENCIES = parse_requirements(
 # SETUP_REQUIREMENTS, SETUP_DEPENDENCIES = parse_requirements(
 #   file_path=(REQUIREMENTS_DIR_PATH / "setup.txt"),
 # )
-# TEST_REQUIREMENTS, TEST_DEPENDENCIES = parse_requirements(
-#   file_path=(REQUIREMENTS_DIR_PATH / "test.txt"),
-# )
+TEST_REQUIREMENTS, TEST_DEPENDENCIES = parse_requirements(
+  file_path=(REQUIREMENTS_DIR_PATH / "test.txt"),
+)
 
 setup(
   name="il2fb-ds-events-parser",
@@ -119,12 +119,12 @@ setup(
   dependency_links=list(set(itertools.chain(
     INSTALL_DEPENDENCIES,
     # SETUP_DEPENDENCIES,
-    # TEST_DEPENDENCIES,
+    TEST_DEPENDENCIES,
   ))),
   install_requires=INSTALL_REQUIREMENTS,
   # setup_requires=SETUP_REQUIREMENTS,
-  # tests_require=TEST_REQUIREMENTS,
-  # test_suite="tests",
+  tests_require=TEST_REQUIREMENTS,
+  test_suite="tests",
 
   classifiers=[
     "Development Status :: 3 - Alpha",
