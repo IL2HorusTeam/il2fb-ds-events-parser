@@ -45,17 +45,19 @@ def parse_requirements(file_path: Path) -> Tuple[List[str], List[str]]:
       if not line or line.startswith("#"):
         continue
 
-      if line.startswith("-e"):
-        line = line.split(" ", 1)[1]
+      if "://" in line:
         dependencies.append(line)
+
         line = line.split("#egg=", 1)[1]
         requirements.append(line)
+
       elif line.startswith("-r"):
         name = Path(line.split(" ", 1)[1])
         path = file_path.parent / name
         subrequirements, subdependencies = parse_requirements(path)
         requirements.extend(subrequirements)
         dependencies.extend(subdependencies)
+
       else:
         requirements.append(line)
 
