@@ -80,10 +80,10 @@ INSTALL_REQUIREMENTS, INSTALL_DEPENDENCIES = parse_requirements(
     file_path=(REQUIREMENTS_DIR_PATH / "dist.txt"),
 )
 # SETUP_REQUIREMENTS, SETUP_DEPENDENCIES = parse_requirements(
-#     file_path=(REQUIREMENTS_DIR_PATH / "setup.txt"),
+#   file_path=(REQUIREMENTS_DIR_PATH / "setup.txt"),
 # )
 # TEST_REQUIREMENTS, TEST_DEPENDENCIES = parse_requirements(
-#     file_path=(REQUIREMENTS_DIR_PATH / "test.txt"),
+#   file_path=(REQUIREMENTS_DIR_PATH / "test.txt"),
 # )
 
 setup(
