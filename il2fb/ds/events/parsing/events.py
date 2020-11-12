@@ -16,9 +16,9 @@ from typing import TypeVar
 from candv import Constants
 from candv import VerboseConstant
 
-from il2fb.ds.events import Event
-from il2fb.ds.events import EventBase
-from il2fb.ds.events import registry
+from il2fb.ds.events.definitions import Event
+from il2fb.ds.events.definitions import EventBase
+from il2fb.ds.events.definitions import registry
 
 from .utils import export
 

@@ -14,7 +14,7 @@ from typing import Tuple
 __here__ = Path(__file__).absolute().parent
 
 
-version_file_path = __here__ / "il2fb" / "ds" / "events_parser" / "version.py"
+version_file_path = __here__ / "il2fb" / "ds" / "events" / "parsing" / "version.py"
 exec(compile(version_file_path.read_text(), version_file_path, "exec"))
 
 
@@ -108,11 +108,12 @@ setup(
   author_email="oblovatniy@gmail.com",
 
   packages=[
-    "il2fb.ds.events_parser",
+    "il2fb.ds.events.parsing",
   ],
   namespace_packages=[
     "il2fb",
     "il2fb.ds",
+    "il2fb.ds.events",
   ],
 
   python_requires=">=3.8",
