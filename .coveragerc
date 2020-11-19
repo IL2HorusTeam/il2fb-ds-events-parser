@@ -1,8 +1,8 @@
 [run]
-source = verboselib
+source = il2fb/ds/events/parsing
 omit =
   */tests/*
-  il2fb/ds/events_parser/version.py
+  il2fb/ds/events/parsing/version.py
 
 [report]
 exclude_lines =

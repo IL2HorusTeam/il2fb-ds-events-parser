@@ -1,15 +1,18 @@
 import sys
 
+if sys.version_info >= (3, 9):
+  from collections.abc import Container
+
+  Dict = dict
+
+else:
+  from typing import Container
+  from typing import Dict
+
 from dataclasses import dataclass
 from dataclasses import field
 
-if sys.version_info < (3, 9):
-  from typing import Container
-else:
-  from collections.abc import Container
-
 from typing import Any
-from typing import Dict
 from typing import Optional
 from typing import TypeVar
 
@@ -18,9 +21,11 @@ from candv import VerboseConstant
 
 from il2fb.ds.events.definitions import Event
 from il2fb.ds.events.definitions import EventBase
-from il2fb.ds.events.definitions import registry
 
-from .utils import export
+from il2fb.ds.events.definitions.registry import EventRegistry
+from il2fb.ds.events.definitions.registry import default_registry
+
+from ._utils import export
 
 
 class EVT_SRC(Constants):
@@ -28,22 +33,27 @@ class EVT_SRC(Constants):
   GLOG = VerboseConstant("gamelog")
 
 
-ParsedEvent = TypeVar("ParsedEvent")
+ParsingEvent = TypeVar("ParsingEvent")
 
 
 @export
 @dataclass(frozen=True)
-class ParsedEvent(EventBase):
+class ParsingEvent(EventBase):
   evt:  Optional[Event]
   line: str
   src:  EVT_SRC
 
-  def to_primitive(self, excludes: Optional[Container[str]] = None) -> Dict[str, Any]:
+  def to_primitive(
+    self,
+    excludes: Optional[Container[str]] = None,
+    *args,
+    **kwargs
+  ) -> Dict[str, Any]:
     """
-    Redefines `to_primitive()` of the parent class.
+    Overrides `to_primitive()` of the parent class.
 
     """
-    evt = self.evt.to_primitive(excludes=excludes) if self.evt else None
+    evt = self.evt and self.evt.to_primitive(excludes=excludes, *args, **kwargs)
 
     return dict(
       evt=evt,
@@ -52,18 +62,25 @@ class ParsedEvent(EventBase):
     )
 
   @classmethod
-  def from_primitive(cls, value: Dict[str, Any]) -> ParsedEvent:
+  def from_primitive(
+    cls,
+    value:    Dict[str, Any],
+    registry: Optional[EventRegistry] = None,
+    *args,
+    **kwargs
+  ) -> ParsingEvent:
     """
     Redefines `from_primitive()` of the parent class.
 
     """
-    evt = value['value']
+    evt = value['evt']
     if evt:
+      registry  = registry or default_registry
       evt_class = registry.get_class_by_name(evt['name'])
-      evt = evt_class.from_primitive(evt)
+      evt = evt_class.from_primitive(evt, *args, **kwargs)
 
     line = value['line']
-    src = EVT_SRC.get(value['src'])
+    src = EVT_SRC.get(value['src'].upper())
 
     return cls(
       evt=evt,
