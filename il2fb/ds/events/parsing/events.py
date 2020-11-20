@@ -39,6 +39,8 @@ ParsingEvent = TypeVar("ParsingEvent")
 @export
 @dataclass(frozen=True)
 class ParsingEvent(EventBase):
+  __slots__ = ["evt", "line", "src", ]
+
   evt:  Optional[Event]
   line: str
   src:  EVT_SRC
