@@ -34,9 +34,9 @@ class ChatLineParser(SimpleLineParser):
 
   Examples of input lines:
 
-    'Chat: --- TheUser has left the game.'
-    'Chat: Server: \tMessage to everyone'
-    'Chat: TheUser: \tMessage to server'
+    "Chat: --- TheUser has left the game."
+    "Chat: Server: \tMessage to everyone"
+    "Chat: TheUser: \tMessage to server"
 
   """
 
