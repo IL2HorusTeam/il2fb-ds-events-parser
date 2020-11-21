@@ -2,6 +2,8 @@
 source = il2fb/ds/events/parsing
 omit =
   */tests/*
+  */docs/*
+  */scripts/*
   il2fb/ds/events/parsing/version.py
 
 [report]
