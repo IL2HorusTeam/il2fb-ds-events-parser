@@ -58,6 +58,13 @@ class HumanConnectionEstablishedLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.channel_info.port, 21000)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
+  def test_parse_line_no_actor(self):
+    line = "socket channel '115', ip 127.0.0.1:4114, , is complete created"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedEvent)
+    self.assertIsNone(evt.data.actor)
+
 
 class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
 

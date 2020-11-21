@@ -27,7 +27,7 @@ HUMAN_CONNECTION_STARTED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)' start creating: (?P<address>.+):(?P<port>\d+)$"
 )
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)', ip (?P<address>.+):(?P<port>\d+), (?P<callsign>.+), is complete created$"
+  r"^socket channel '(?P<channel_no>\d+)', ip (?P<address>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
 )
 HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
@@ -77,6 +77,7 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
   Examples of input lines:
 
     "socket channel '699', ip 127.0.0.1:21000, TheUser, is complete created"
+    "socket channel '115', ip 127.0.0.1:4114, , is complete created"
 
   """
   def parse_line(self, line: str) -> Optional[HumanConnectionEstablishedEvent]:
@@ -88,7 +89,12 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
     channel_no = int(group['channel_no'])
     port       = int(group['port'])
     address    = group['address']
-    callsign   = group['callsign']
+
+    callsign = group['callsign']
+    if callsign is not None:
+      callsign = callsign.strip()
+
+    actor = HumanActor(callsign) if callsign else None
 
     return HumanConnectionEstablishedEvent(HumanConnectionEstablishedInfo(
       channel_info=ChannelInfo(
@@ -96,7 +102,7 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
         address=address,
         port=port,
       ),
-      actor=HumanActor(callsign),
+      actor=actor,
     ))
 
 
