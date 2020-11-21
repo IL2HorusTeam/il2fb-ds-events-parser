@@ -6,17 +6,19 @@ from il2fb.commons.actors import HumanActor
 
 from il2fb.ds.events.definitions.connection import ConnectionAddress
 
-from il2fb.ds.events.definitions.connection import HumanConnectionStartedInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionFailedInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionLostInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionStartedInfo
 
-from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
+from il2fb.ds.events.definitions.connection import HumanConnectionFailedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
+from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
 from .base import SimpleLineParser
 from .datetime import parse_time_or_fail
@@ -26,6 +28,9 @@ from ._utils import export
 
 HUMAN_CONNECTION_STARTED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)' start creating: (?P<host>.+):(?P<port>\d+)$"
+)
+HUMAN_CONNECTION_FAILED_EVENT_REGEX = re.compile(
+  r"^socket channel NOT created \((?P<reason>.*)\): (?P<host>.+):(?P<port>\d+)$"
 )
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
@@ -64,6 +69,40 @@ class HumanConnectionStartedLineParser(SimpleLineParser):
     return HumanConnectionStartedEvent(HumanConnectionStartedInfo(
       address=ConnectionAddress(host=host, port=port),
       channel_no=channel_no,
+    ))
+
+
+@export
+class HumanConnectionFailedLineParser(SimpleLineParser):
+  """
+  Parses console messages about failure of a human connection.
+
+  Examples of input lines:
+
+    "socket channel NOT created (): 127.0.0.1:45292"
+    "socket channel NOT created (Only TREE network structure is supported.): 127.0.0.1:21000"
+    "socket channel NOT created (Reconnect user): 127.0.0.1:21000"
+    "socket channel NOT created (Timeout.): 127.0.0.1:19841"
+
+  """
+  def parse_line(self, line: str) -> Optional[HumanConnectionFailedEvent]:
+    match = HUMAN_CONNECTION_FAILED_EVENT_REGEX.match(line)
+    if not match:
+      return
+
+    group = match.groupdict()
+    port  = int(group['port'])
+    host  = group['host']
+
+    reason = group['reason']
+    if reason is not None:
+      reason = reason.strip()
+
+    reason = reason or None
+
+    return HumanConnectionFailedEvent(HumanConnectionFailedInfo(
+      address=ConnectionAddress(host=host, port=port),
+      reason=reason,
     ))
 
 

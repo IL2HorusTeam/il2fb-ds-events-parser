@@ -1,17 +1,19 @@
 import datetime
 import unittest
 
-from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
+from il2fb.ds.events.definitions.connection import HumanConnectionFailedEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
+from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
-from il2fb.ds.events.parsing.connection import HumanConnectionStartedLineParser
-from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLineParser
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
-from il2fb.ds.events.parsing.connection import HumanConnectionLostLineParser
+from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLineParser
+from il2fb.ds.events.parsing.connection import HumanConnectionFailedLineParser
 from il2fb.ds.events.parsing.connection import HumanConnectionLostLightLineParser
+from il2fb.ds.events.parsing.connection import HumanConnectionLostLineParser
+from il2fb.ds.events.parsing.connection import HumanConnectionStartedLineParser
 
 
 class HumanConnectionStartedLineParserTestCase(unittest.TestCase):
@@ -34,6 +36,35 @@ class HumanConnectionStartedLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.channel_no, 705)
     self.assertEqual(evt.data.address.host, "127.0.0.1")
     self.assertEqual(evt.data.address.port, 21000)
+
+
+class HumanConnectionFailedLineParserTestCase(unittest.TestCase):
+
+  def setUp(self):
+    self.parser = HumanConnectionFailedLineParser()
+
+  def test_parse_line_no_match(self):
+    line = "foo"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsNone(evt)
+
+  def test_parse_line(self):
+    line = "socket channel NOT created (Timeout.): 127.0.0.1:19841"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanConnectionFailedEvent)
+
+    self.assertEqual(evt.data.address.host, "127.0.0.1")
+    self.assertEqual(evt.data.address.port, 19841)
+    self.assertEqual(evt.data.reason, "Timeout.")
+
+  def test_parse_line_no_reason(self):
+    line = "socket channel NOT created (): 127.0.0.1:45292"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanConnectionFailedEvent)
+    self.assertIsNone(evt.data.reason)
 
 
 class HumanConnectionEstablishedLineParserTestCase(unittest.TestCase):
