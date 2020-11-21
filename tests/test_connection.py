@@ -103,7 +103,7 @@ class HumanConnectionLostLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.reason, "You have been kicked from the server.")
 
   def test_parse_line_no_reason(self):
-    line = "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason: "
+    line = "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason:"
     evt  = self.parser.parse_line(line)
 
     self.assertIsInstance(evt, HumanConnectionLostEvent)

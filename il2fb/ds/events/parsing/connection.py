@@ -33,7 +33,7 @@ HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
 )
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
-  r"^socketConnection with (?P<address>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason: (?P<reason>.*)$"
+  r"^socketConnection with (?P<address>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
 )
 HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has disconnected$"
@@ -134,7 +134,7 @@ class HumanConnectionLostLineParser(SimpleLineParser):
   Examples of input lines:
 
     "socketConnection with 127.0.0.1:60500 on channel 709 lost.  Reason: You have been kicked from the server."
-    "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason: "
+    "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason:"
 
   """
   def parse_line(self, line: str) -> Optional[HumanConnectionLostEvent]:
@@ -146,7 +146,12 @@ class HumanConnectionLostLineParser(SimpleLineParser):
     channel_no = int(group['channel_no'])
     port       = int(group['port'])
     address    = group['address']
-    reason     = group['reason'] or None
+
+    reason = group['reason']
+    if reason is not None:
+      reason = reason.strip()
+
+    reason = reason or None
 
     return HumanConnectionLostEvent(HumanConnectionLostInfo(
       channel_info=ChannelInfo(
