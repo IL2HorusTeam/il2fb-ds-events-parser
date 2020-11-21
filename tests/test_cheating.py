@@ -24,3 +24,10 @@ class CheatingLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.channel_no, 203)
     self.assertEqual(evt.data.cheat_code, 8)
     self.assertEqual(evt.data.cheat_details, "Cheat-Engine")
+
+  def test_parse_line_negative_cheat_code(self):
+    line = "socket channel '125' Cheater was detected! Reason=-1206008474: 'Unknow'"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, CheatingDetectedEvent)
+    self.assertEqual(evt.data.cheat_code, -1206008474)

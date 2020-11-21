@@ -11,7 +11,7 @@ from ._utils import export
 
 
 CHEATING_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)' Cheater was detected! Reason=(?P<cheat_code>\d+):\s'(?P<cheat_details>.+)'$"
+  r"^socket channel '(?P<channel_no>\d+)' Cheater was detected! Reason=(?P<cheat_code>-?\d+):\s'(?P<cheat_details>.+)'$"
 )
 
 
@@ -24,7 +24,7 @@ class CheatingLineParser(SimpleLineParser):
 
     "socket channel '203' Cheater was detected! Reason=8: 'Cheat-Engine'"
     "socket channel '87' Cheater was detected! Reason=-557645630: 'Unknow'"
-    "socket channel '751' Cheater was detected! Reason=118227478: 'Unknow"
+    "socket channel '751' Cheater was detected! Reason=118227478: 'Unknow'"
     "socket channel '145' Cheater was detected! Reason=7: 'Il2trainerstable'"
 
   """
