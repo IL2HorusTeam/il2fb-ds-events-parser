@@ -4,7 +4,8 @@ from typing import Optional
 
 from il2fb.commons.actors import HumanActor
 
-from il2fb.ds.events.definitions.connection import ChannelInfo
+from il2fb.ds.events.definitions.connection import ConnectionAddress
+
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightInfo
@@ -24,16 +25,16 @@ from ._utils import export
 
 
 HUMAN_CONNECTION_STARTED_EVENT_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)' start creating: (?P<address>.+):(?P<port>\d+)$"
+  r"^socket channel '(?P<channel_no>\d+)' start creating: (?P<host>.+):(?P<port>\d+)$"
 )
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)', ip (?P<address>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
+  r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
 )
 HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
 )
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
-  r"^socketConnection with (?P<address>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
+  r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
 )
 HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has disconnected$"
@@ -58,14 +59,11 @@ class HumanConnectionStartedLineParser(SimpleLineParser):
     group      = match.groupdict()
     channel_no = int(group['channel_no'])
     port       = int(group['port'])
-    address    = group['address']
+    host       = group['host']
 
     return HumanConnectionStartedEvent(HumanConnectionStartedInfo(
-      channel_info=ChannelInfo(
-        channel_no=channel_no,
-        address=address,
-        port=port,
-      ),
+      address=ConnectionAddress(host=host, port=port),
+      channel_no=channel_no,
     ))
 
 
@@ -88,7 +86,7 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
     group      = match.groupdict()
     channel_no = int(group['channel_no'])
     port       = int(group['port'])
-    address    = group['address']
+    host       = group['host']
 
     callsign = group['callsign']
     if callsign is not None:
@@ -97,11 +95,8 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
     actor = HumanActor(callsign) if callsign else None
 
     return HumanConnectionEstablishedEvent(HumanConnectionEstablishedInfo(
-      channel_info=ChannelInfo(
-        channel_no=channel_no,
-        address=address,
-        port=port,
-      ),
+      address=ConnectionAddress(host=host, port=port),
+      channel_no=channel_no,
       actor=actor,
     ))
 
@@ -151,7 +146,7 @@ class HumanConnectionLostLineParser(SimpleLineParser):
     group      = match.groupdict()
     channel_no = int(group['channel_no'])
     port       = int(group['port'])
-    address    = group['address']
+    host       = group['host']
 
     reason = group['reason']
     if reason is not None:
@@ -160,11 +155,8 @@ class HumanConnectionLostLineParser(SimpleLineParser):
     reason = reason or None
 
     return HumanConnectionLostEvent(HumanConnectionLostInfo(
-      channel_info=ChannelInfo(
-        channel_no=channel_no,
-        address=address,
-        port=port,
-      ),
+      address=ConnectionAddress(host=host, port=port),
+      channel_no=channel_no,
       reason=reason,
     ))
 

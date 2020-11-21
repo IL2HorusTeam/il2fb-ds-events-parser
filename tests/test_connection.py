@@ -31,9 +31,9 @@ class HumanConnectionStartedLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanConnectionStartedEvent)
 
-    self.assertEqual(evt.data.channel_info.channel_no, 705)
-    self.assertEqual(evt.data.channel_info.address, "127.0.0.1")
-    self.assertEqual(evt.data.channel_info.port, 21000)
+    self.assertEqual(evt.data.channel_no, 705)
+    self.assertEqual(evt.data.address.host, "127.0.0.1")
+    self.assertEqual(evt.data.address.port, 21000)
 
 
 class HumanConnectionEstablishedLineParserTestCase(unittest.TestCase):
@@ -53,9 +53,9 @@ class HumanConnectionEstablishedLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanConnectionEstablishedEvent)
 
-    self.assertEqual(evt.data.channel_info.channel_no, 699)
-    self.assertEqual(evt.data.channel_info.address, "127.0.0.1")
-    self.assertEqual(evt.data.channel_info.port, 21000)
+    self.assertEqual(evt.data.channel_no, 699)
+    self.assertEqual(evt.data.address.host, "127.0.0.1")
+    self.assertEqual(evt.data.address.port, 21000)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
   def test_parse_line_no_actor(self):
@@ -104,9 +104,9 @@ class HumanConnectionLostLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanConnectionLostEvent)
 
-    self.assertEqual(evt.data.channel_info.channel_no, 709)
-    self.assertEqual(evt.data.channel_info.address, "127.0.0.1")
-    self.assertEqual(evt.data.channel_info.port, 60500)
+    self.assertEqual(evt.data.channel_no, 709)
+    self.assertEqual(evt.data.address.host, "127.0.0.1")
+    self.assertEqual(evt.data.address.port, 60500)
     self.assertEqual(evt.data.reason, "You have been kicked from the server.")
 
   def test_parse_line_no_reason(self):
