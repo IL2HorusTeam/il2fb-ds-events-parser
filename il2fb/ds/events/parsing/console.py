@@ -7,8 +7,8 @@ else:
 
 from typing import Optional
 
-from .base import CompositeLineParser
-from .base import SimpleLineParser
+from .base import CompositePlainLineParser
+from .base import PlainLineParser
 
 from .chat import ChatLineParser
 from .cheating import CheatingLineParser
@@ -49,9 +49,9 @@ DEFAULT_CONSOLE_SUBPARSER_CLASSES = [
 
 
 @export
-class ConsoleLineParser(CompositeLineParser):
+class ConsoleLineParser(CompositePlainLineParser):
 
-  def __init__(self, subparsers: Optional[Iterable[SimpleLineParser]] = None) -> None:
+  def __init__(self, subparsers: Optional[Iterable[PlainLineParser]] = None) -> None:
     if not subparsers:
       subparsers = [cls() for cls in DEFAULT_CONSOLE_SUBPARSER_CLASSES]
 

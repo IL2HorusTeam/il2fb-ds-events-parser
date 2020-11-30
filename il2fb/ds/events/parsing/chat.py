@@ -12,7 +12,7 @@ from il2fb.ds.events.definitions.chat import SystemChatMessageEvent
 from il2fb.ds.events.definitions.chat import HumanChatMessageEvent
 
 
-from .base import SimpleLineParser
+from .base import PlainLineParser
 
 from ._utils import export
 
@@ -28,7 +28,7 @@ SENDER_SERVER    = "Server"
 
 
 @export
-class ChatLineParser(SimpleLineParser):
+class ChatLineParser(PlainLineParser):
   """
   Parses chat messages.
 

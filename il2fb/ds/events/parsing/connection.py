@@ -20,7 +20,7 @@ from il2fb.ds.events.definitions.connection import HumanConnectionLostEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
-from .base import SimpleLineParser
+from .base import PlainLineParser
 from .timestamps import parse_time_or_fail
 
 from ._utils import export
@@ -35,11 +35,11 @@ HUMAN_CONNECTION_FAILED_EVENT_REGEX = re.compile(
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
 )
-HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
-  r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
-)
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
   r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
+)
+HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
+  r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
 )
 HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
   r"^\[(?P<time>.+)\] (?P<callsign>.+) has disconnected$"
@@ -47,7 +47,7 @@ HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
 
 
 @export
-class HumanConnectionStartedLineParser(SimpleLineParser):
+class HumanConnectionStartedLineParser(PlainLineParser):
   """
   Parses console messages about start of a human connection.
 
@@ -73,7 +73,7 @@ class HumanConnectionStartedLineParser(SimpleLineParser):
 
 
 @export
-class HumanConnectionFailedLineParser(SimpleLineParser):
+class HumanConnectionFailedLineParser(PlainLineParser):
   """
   Parses console messages about failure of a human connection.
 
@@ -107,7 +107,7 @@ class HumanConnectionFailedLineParser(SimpleLineParser):
 
 
 @export
-class HumanConnectionEstablishedLineParser(SimpleLineParser):
+class HumanConnectionEstablishedLineParser(PlainLineParser):
   """
   Parses console messages about establishing of a human connection.
 
@@ -141,7 +141,7 @@ class HumanConnectionEstablishedLineParser(SimpleLineParser):
 
 
 @export
-class HumanConnectionEstablishedLightLineParser(SimpleLineParser):
+class HumanConnectionEstablishedLightLineParser(PlainLineParser):
   """
   Parses game log messages about establishing of a human connection.
 
@@ -167,7 +167,7 @@ class HumanConnectionEstablishedLightLineParser(SimpleLineParser):
 
 
 @export
-class HumanConnectionLostLineParser(SimpleLineParser):
+class HumanConnectionLostLineParser(PlainLineParser):
   """
   Parses console messages about loss of a human connection.
 
@@ -201,7 +201,7 @@ class HumanConnectionLostLineParser(SimpleLineParser):
 
 
 @export
-class HumanConnectionLostLightLineParser(SimpleLineParser):
+class HumanConnectionLostLightLineParser(PlainLineParser):
   """
   Parses game log messages about loss of a human connection.
 

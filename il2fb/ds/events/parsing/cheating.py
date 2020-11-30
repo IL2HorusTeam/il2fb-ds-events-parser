@@ -5,7 +5,7 @@ from typing import Optional
 from il2fb.ds.events.definitions.cheating import CheatingInfo
 from il2fb.ds.events.definitions.cheating import CheatingDetectedEvent
 
-from .base import SimpleLineParser
+from .base import PlainLineParser
 
 from ._utils import export
 
@@ -16,7 +16,7 @@ CHEATING_REGEX = re.compile(
 
 
 @export
-class CheatingLineParser(SimpleLineParser):
+class CheatingLineParser(PlainLineParser):
   """
   Parses cheating detection messages.
 
