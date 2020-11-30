@@ -34,10 +34,9 @@ class CheatingLineParser(PlainLineParser):
     if not match:
       return
 
-    group         = match.groupdict()
-    channel_no    = int(group['channel_no'])
-    cheat_code    = int(group['cheat_code'])
-    cheat_details = group['cheat_details']
+    channel_no    = int(match.group('channel_no'))
+    cheat_code    = int(match.group('cheat_code'))
+    cheat_details = match.group('cheat_details')
 
     return CheatingDetectedEvent(CheatingInfo(
       channel_no=channel_no,

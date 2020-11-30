@@ -62,10 +62,9 @@ class HumanConnectionStartedLineParser(PlainLineParser):
     if not match:
       return
 
-    group      = match.groupdict()
-    channel_no = int(group['channel_no'])
-    port       = int(group['port'])
-    host       = group['host']
+    channel_no = int(match.group('channel_no'))
+    port       = int(match.group('port'))
+    host       = match.group('host')
 
     return HumanConnectionStartedEvent(HumanConnectionStartedInfo(
       address=ConnectionAddress(host=host, port=port),
@@ -91,11 +90,10 @@ class HumanConnectionFailedLineParser(PlainLineParser):
     if not match:
       return
 
-    group = match.groupdict()
-    port  = int(group['port'])
-    host  = group['host']
+    port  = int(match.group('port'))
+    host  = match.group('host')
 
-    reason = group['reason']
+    reason = match.group('reason')
     if reason is not None:
       reason = reason.strip()
 
@@ -123,12 +121,11 @@ class HumanConnectionEstablishedLineParser(PlainLineParser):
     if not match:
       return
 
-    group      = match.groupdict()
-    channel_no = int(group['channel_no'])
-    port       = int(group['port'])
-    host       = group['host']
+    channel_no = int(match.group('channel_no'))
+    port       = int(match.group('port'))
+    host       = match.group('host')
 
-    callsign = group['callsign']
+    callsign = match.group('callsign')
     if callsign is not None:
       callsign = callsign.strip()
 
@@ -156,8 +153,7 @@ class HumanConnectionEstablishedLightLineParser(LineWithTimeParser):
     if not match:
       return
 
-    group    = match.groupdict()
-    callsign = group['callsign']
+    callsign = match.group('callsign')
 
     return HumanConnectionEstablishedLightEvent(HumanConnectionEstablishedLightInfo(
       time=timestamp,
@@ -181,12 +177,11 @@ class HumanConnectionLostLineParser(PlainLineParser):
     if not match:
       return
 
-    group      = match.groupdict()
-    channel_no = int(group['channel_no'])
-    port       = int(group['port'])
-    host       = group['host']
+    channel_no = int(match.group('channel_no'))
+    port       = int(match.group('port'))
+    host       = match.group('host')
 
-    reason = group['reason']
+    reason = match.group('reason')
     if reason is not None:
       reason = reason.strip()
 
@@ -214,8 +209,7 @@ class HumanConnectionLostLightLineParser(LineWithTimeParser):
     if not match:
       return
 
-    group    = match.groupdict()
-    callsign = group['callsign']
+    callsign = match.group('callsign')
 
     return HumanConnectionLostLightEvent(HumanConnectionLostLightInfo(
       time=timestamp,
