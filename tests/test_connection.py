@@ -103,18 +103,20 @@ class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
     self.parser = HumanConnectionEstablishedLightLineParser()
 
   def test_parse_line_no_match(self):
+    timestamp = None
     line = "foo"
-    evt  = self.parser.parse_line(line)
+    evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    line = "[6:36:45 PM] TheUser has connected"
-    evt  = self.parser.parse_line(line)
+    timestamp = datetime.time(18, 36, 45)
+    line = "TheUser has connected"
+    evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanConnectionEstablishedLightEvent)
 
-    self.assertEqual(evt.data.time, datetime.time(18, 36, 45))
+    self.assertEqual(evt.data.time, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
 
@@ -154,16 +156,18 @@ class HumanConnectionLostLightLineParserTestCase(unittest.TestCase):
     self.parser = HumanConnectionLostLightLineParser()
 
   def test_parse_line_no_match(self):
+    timestamp = None
     line = "foo"
-    evt  = self.parser.parse_line(line)
+    evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    line = "[9:14:48 PM] TheUser has disconnected"
-    evt  = self.parser.parse_line(line)
+    timestamp = datetime.time(21, 14, 48)
+    line = "TheUser has disconnected"
+    evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanConnectionLostLightEvent)
 
-    self.assertEqual(evt.data.time, datetime.time(21, 14, 48))
+    self.assertEqual(evt.data.time, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")

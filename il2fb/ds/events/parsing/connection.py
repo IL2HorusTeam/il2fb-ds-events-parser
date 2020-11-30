@@ -1,3 +1,4 @@
+import datetime
 import re
 
 from typing import Optional
@@ -21,7 +22,7 @@ from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
 from .base import PlainLineParser
-from .timestamps import parse_time_or_fail
+from .base import LineWithTimeParser
 
 from ._utils import export
 
@@ -35,14 +36,14 @@ HUMAN_CONNECTION_FAILED_EVENT_REGEX = re.compile(
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
 )
+HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
+  r"^(?P<callsign>.+) has connected$"
+)
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
   r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
 )
-HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
-  r"^\[(?P<time>.+)\] (?P<callsign>.+) has connected$"
-)
 HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
-  r"^\[(?P<time>.+)\] (?P<callsign>.+) has disconnected$"
+  r"^(?P<callsign>.+) has disconnected$"
 )
 
 
@@ -141,7 +142,7 @@ class HumanConnectionEstablishedLineParser(PlainLineParser):
 
 
 @export
-class HumanConnectionEstablishedLightLineParser(PlainLineParser):
+class HumanConnectionEstablishedLightLineParser(LineWithTimeParser):
   """
   Parses game log messages about establishing of a human connection.
 
@@ -150,18 +151,16 @@ class HumanConnectionEstablishedLightLineParser(PlainLineParser):
     "[6:36:45 PM] TheUser has connected"
 
   """
-  def parse_line(self, line: str) -> Optional[HumanConnectionEstablishedLightEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionEstablishedLightEvent]:
     match = HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX.match(line)
     if not match:
       return
 
     group    = match.groupdict()
     callsign = group['callsign']
-    time     = group['time']
-    time     = parse_time_or_fail(time)
 
     return HumanConnectionEstablishedLightEvent(HumanConnectionEstablishedLightInfo(
-      time=time,
+      time=timestamp,
       actor=HumanActor(callsign),
     ))
 
@@ -201,7 +200,7 @@ class HumanConnectionLostLineParser(PlainLineParser):
 
 
 @export
-class HumanConnectionLostLightLineParser(PlainLineParser):
+class HumanConnectionLostLightLineParser(LineWithTimeParser):
   """
   Parses game log messages about loss of a human connection.
 
@@ -210,17 +209,15 @@ class HumanConnectionLostLightLineParser(PlainLineParser):
     "[9:14:48 PM] TheUser has disconnected"
 
   """
-  def parse_line(self, line: str) -> Optional[HumanConnectionLostLightEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionLostLightEvent]:
     match = HUMAN_CONNECTION_LOST_LIGHT_REGEX.match(line)
     if not match:
       return
 
     group    = match.groupdict()
     callsign = group['callsign']
-    time     = group['time']
-    time     = parse_time_or_fail(time)
 
     return HumanConnectionLostLightEvent(HumanConnectionLostLightInfo(
-      time=time,
+      time=timestamp,
       actor=HumanActor(callsign),
     ))
