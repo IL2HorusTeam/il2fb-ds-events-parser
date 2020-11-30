@@ -16,10 +16,10 @@ from .connection import HumanConnectionLostLightLineParser
 from ._utils import export
 
 
-DEFAULT_GAMELOG_SUBPARSER_CLASSES = [
+DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanConnectionEstablishedLightLineParser,
   HumanConnectionLostLightLineParser,
-]
+)
 
 
 @export

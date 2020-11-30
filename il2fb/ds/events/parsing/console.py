@@ -23,7 +23,7 @@ from ._utils import export
 # Order affects performance. The following order is based on statistics
 # of 600k console events collected during several months of server's execution.
 # Comments show percentage of hits per parser.
-DEFAULT_CONSOLE_SUBPARSER_CLASSES = [
+DEFAULT_CONSOLE_SUBPARSER_CLASSES = (
 
   # 93.9519%
   #  - ServerChatMessageEvent  83.2624%
@@ -45,7 +45,7 @@ DEFAULT_CONSOLE_SUBPARSER_CLASSES = [
 
   # 0.0246%
   HumanConnectionFailedLineParser,
-]
+)
 
 
 @export
