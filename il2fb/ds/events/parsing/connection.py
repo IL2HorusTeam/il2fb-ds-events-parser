@@ -21,7 +21,7 @@ from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
 from .base import SimpleLineParser
-from .datetime import parse_time_or_fail
+from .timestamps import parse_time_or_fail
 
 from ._utils import export
 
