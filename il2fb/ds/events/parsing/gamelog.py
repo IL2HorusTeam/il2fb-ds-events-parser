@@ -10,6 +10,8 @@ from typing import Optional
 from .base import AbstractLineWithTimestampParser
 from .base import CompositeLineWithTimestampParser
 
+from .briefing import HumanReturnedToBriefingLineParser
+
 from .connection import HumanConnectionEstablishedLightLineParser
 from .connection import HumanConnectionLostLightLineParser
 
@@ -28,6 +30,7 @@ from ._utils import export
 
 DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanToggledWingtipSmokesLineParser,
+  HumanReturnedToBriefingLineParser,
   HumanConnectionEstablishedLightLineParser,
   HumanConnectionLostLightLineParser,
   MissionLoadedLineParser,
