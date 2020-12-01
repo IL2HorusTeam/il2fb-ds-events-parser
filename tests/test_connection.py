@@ -116,7 +116,7 @@ class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanConnectionEstablishedLightEvent)
 
-    self.assertEqual(evt.data.time, timestamp)
+    self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
 
@@ -169,5 +169,5 @@ class HumanConnectionLostLightLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanConnectionLostLightEvent)
 
-    self.assertEqual(evt.data.time, timestamp)
+    self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")

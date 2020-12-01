@@ -156,7 +156,7 @@ class HumanConnectionEstablishedLightLineParser(LineWithTimeParser):
     callsign = match.group('callsign')
 
     return HumanConnectionEstablishedLightEvent(HumanConnectionEstablishedLightInfo(
-      time=timestamp,
+      timestamp=timestamp,
       actor=HumanActor(callsign),
     ))
 
@@ -212,6 +212,6 @@ class HumanConnectionLostLightLineParser(LineWithTimeParser):
     callsign = match.group('callsign')
 
     return HumanConnectionLostLightEvent(HumanConnectionLostLightInfo(
-      time=timestamp,
+      timestamp=timestamp,
       actor=HumanActor(callsign),
     ))

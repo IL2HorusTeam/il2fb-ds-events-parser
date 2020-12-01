@@ -45,7 +45,7 @@ class MissionLoadedLineParser(LineWithDatetimeParser):
     file_path = Path(match.group('file_path'))
 
     return MissionLoadedEvent(MissionLoadedInfo(
-      datetime=timestamp,
+      timestamp=timestamp,
       file_path=file_path,
     ))
 
@@ -62,7 +62,7 @@ class MissionStartedLineParser(LineWithTimeParser):
   """
   def parse_line(self, timestamp: datetime.time, line: str) -> Optional[MissionStartedEvent]:
     if line == MISSION_STARTED_EVENT_LITERAL:
-      return MissionStartedEvent(MissionStartedInfo(time=timestamp))
+      return MissionStartedEvent(MissionStartedInfo(timestamp=timestamp))
 
 
 @export
@@ -77,4 +77,4 @@ class MissionEndedLineParser(LineWithTimeParser):
   """
   def parse_line(self, timestamp: datetime.time, line: str) -> Optional[MissionEndedEvent]:
     if line == MISSION_ENDED_EVENT_LITERAL:
-      return MissionEndedEvent(MissionEndedInfo(time=timestamp))
+      return MissionEndedEvent(MissionEndedInfo(timestamp=timestamp))

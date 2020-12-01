@@ -31,7 +31,7 @@ class MissionLoadedLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, MissionLoadedEvent)
 
-    self.assertEqual(evt.data.datetime, timestamp)
+    self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.file_path, Path("net/dogfight/1596469535.mis"))
 
 
@@ -53,7 +53,7 @@ class MissionStartedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, MissionStartedEvent)
-    self.assertEqual(evt.data.time, timestamp)
+    self.assertEqual(evt.data.timestamp, timestamp)
 
 
 class MissionEndedLineParserTestCase(unittest.TestCase):
@@ -74,4 +74,4 @@ class MissionEndedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, MissionEndedEvent)
-    self.assertEqual(evt.data.time, timestamp)
+    self.assertEqual(evt.data.timestamp, timestamp)
