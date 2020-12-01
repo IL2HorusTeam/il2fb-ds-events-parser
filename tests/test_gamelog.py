@@ -3,10 +3,13 @@ import unittest
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 
-from il2fb.ds.events.parsing.gamelog import GamelogLineParser
+from il2fb.ds.events.definitions.mission import MissionLoadedEvent
+from il2fb.ds.events.definitions.mission import MissionStartedEvent
+from il2fb.ds.events.definitions.mission import MissionEndedEvent
 
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
-from il2fb.ds.events.parsing.connection import HumanConnectionLostLightLineParser
+from il2fb.ds.events.parsing.gamelog import GamelogLineParser
+from il2fb.ds.events.parsing.mission import MissionLoadedLineParser
 
 
 class GamelogLineParserTestCase(unittest.TestCase):
@@ -22,6 +25,18 @@ class GamelogLineParserTestCase(unittest.TestCase):
         HumanConnectionLostLightEvent,
         "[3:50:25 PM] TheUser has disconnected",
       ),
+      (
+        MissionLoadedEvent,
+        "[Aug 3, 2020 3:46:08 PM] Mission: net/dogfight/1596469535.mis is Playing",
+      ),
+      (
+        MissionStartedEvent,
+        "[3:46:08 PM] Mission BEGIN",
+      ),
+      (
+        MissionEndedEvent,
+        "[3:46:16 PM] Mission END",
+      ),
     ]
     for cls, line in items:
       result = parser.parse_line(line)
@@ -30,12 +45,17 @@ class GamelogLineParserTestCase(unittest.TestCase):
   def test_custom_subparsers(self):
     parser = GamelogLineParser([
       HumanConnectionEstablishedLightLineParser(),
+      MissionLoadedLineParser(),
     ])
 
     items = [
       (
         HumanConnectionEstablishedLightEvent,
         "[3:50:25 PM] TheUser has connected",
+      ),
+      (
+        MissionLoadedEvent,
+        "[Aug 3, 2020 3:46:08 PM] Mission: net/dogfight/1596469535.mis is Playing",
       ),
     ]
     for cls, line in items:
@@ -44,6 +64,8 @@ class GamelogLineParserTestCase(unittest.TestCase):
 
     ignored_items = [
       "[3:50:25 PM] TheUser has disconnected",
+      "[3:46:08 PM] Mission BEGIN",
+      "[3:46:16 PM] Mission END",
     ]
     for line in ignored_items:
       result = parser.parse_line(line)

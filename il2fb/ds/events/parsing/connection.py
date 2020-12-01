@@ -145,7 +145,7 @@ class HumanConnectionEstablishedLightLineParser(LineWithTimeParser):
 
   Examples of input lines:
 
-    "[6:36:45 PM] TheUser has connected"
+    "TheUser has connected"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionEstablishedLightEvent]:
@@ -201,7 +201,7 @@ class HumanConnectionLostLightLineParser(LineWithTimeParser):
 
   Examples of input lines:
 
-    "[9:14:48 PM] TheUser has disconnected"
+    "TheUser has disconnected"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionLostLightEvent]:
