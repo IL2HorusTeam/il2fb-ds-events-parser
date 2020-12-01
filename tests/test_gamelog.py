@@ -1,6 +1,7 @@
 import unittest
 
 from il2fb.ds.events.definitions.briefing import HumanReturnedToBriefingEvent
+from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldEvent
 
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
@@ -49,6 +50,9 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (HumanToggledWingtipSmokesEvent,       "[3:50:25 PM] TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805"),
 
       (HumanReturnedToBriefingEvent,         "[3:50:25 PM] TheUser entered refly menu"),
+
+      (HumanSelectedAirfieldEvent,           "[6:55:50 PM] TheUser selected army Red at 134055.0 136158.0 0.0"),
+      (HumanSelectedAirfieldEvent,           "[6:55:50 PM] TheUser selected army Red at 134055.0 136158.0"),
     ]
 
     for cls, line in items:
