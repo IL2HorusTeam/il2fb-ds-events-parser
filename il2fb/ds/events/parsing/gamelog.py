@@ -13,6 +13,8 @@ from .base import CompositeLineWithTimestampParser
 from .connection import HumanConnectionEstablishedLightLineParser
 from .connection import HumanConnectionLostLightLineParser
 
+from .lights import HumanToggledLandingLightsLineParser
+
 from .mission import MissionLoadedLineParser
 from .mission import MissionStartedLineParser
 from .mission import MissionEndedLineParser
@@ -29,6 +31,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   MissionStartedLineParser,
   MissionEndedLineParser,
   HumanToggledRecordingLineParser,
+  HumanToggledLandingLightsLineParser,
 )
 
 

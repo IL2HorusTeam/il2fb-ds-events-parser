@@ -3,6 +3,8 @@ import unittest
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 
+from il2fb.ds.events.definitions.lights import HumanToggledLandingLightsEvent
+
 from il2fb.ds.events.definitions.mission import MissionLoadedEvent
 from il2fb.ds.events.definitions.mission import MissionStartedEvent
 from il2fb.ds.events.definitions.mission import MissionEndedEvent
@@ -18,6 +20,7 @@ class GamelogLineParserTestCase(unittest.TestCase):
 
   def test_default_subparsers(self):
     parser = GamelogLineParser()
+
     items = [
       (HumanConnectionEstablishedLightEvent, "[3:50:25 PM] TheUser has connected"),
       (HumanConnectionLostLightEvent,        "[3:50:25 PM] TheUser has disconnected"),
@@ -26,9 +29,14 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (MissionEndedEvent,                    "[3:46:16 PM] Mission END"),
       (HumanToggledRecordingEvent,           "[3:46:16 PM] TheUser started NTRK record"),
       (HumanToggledRecordingEvent,           "[3:46:16 PM] TheUser stopped NTRK record"),
-      (HumanToggledRecordingEvent,           "[3:46:16 PM] started NTRK record"),
-      (HumanToggledRecordingEvent,           "[3:46:16 PM] stopped NTRK record"),
+      (HumanToggledRecordingEvent,           "[3:46:16 PM]   started NTRK record"),
+      (HumanToggledRecordingEvent,           "[3:46:16 PM]   stopped NTRK record"),
+      (HumanToggledLandingLightsEvent,       "[3:50:25 PM] TheUser:P-39D2 turned landing lights on at 91600.414 73098.805 661.9586"),
+      (HumanToggledLandingLightsEvent,       "[3:50:25 PM] TheUser:P-39D2 turned landing lights on at 91600.414 73098.805"),
+      (HumanToggledLandingLightsEvent,       "[3:50:25 PM] TheUser:P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"),
+      (HumanToggledLandingLightsEvent,       "[3:50:25 PM] TheUser:P-39D2 turned landing lights off at 91600.414 73098.805"),
     ]
+
     for cls, line in items:
       result = parser.parse_line(line)
       self.assertIsInstance(result, cls, msg=f"line={line!r}")
