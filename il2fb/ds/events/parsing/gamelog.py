@@ -21,10 +21,13 @@ from .mission import MissionEndedLineParser
 
 from .recording import HumanToggledRecordingLineParser
 
+from .smokes import HumanToggledWingtipSmokesLineParser
+
 from ._utils import export
 
 
 DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
+  HumanToggledWingtipSmokesLineParser,
   HumanConnectionEstablishedLightLineParser,
   HumanConnectionLostLightLineParser,
   MissionLoadedLineParser,

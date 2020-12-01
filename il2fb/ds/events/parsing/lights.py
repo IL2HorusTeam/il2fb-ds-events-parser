@@ -30,7 +30,9 @@ class HumanToggledLandingLightsLineParser(LineWithTimeParser):
 
   Examples of input lines:
 
+    "TheUser:P-39D2 turned landing lights on at 91600.414 73098.805 661.9586"
     "TheUser:P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"
+    "TheUser:P-39D2 turned landing lights on at 91600.414 73098.805"
     "TheUser:P-39D2 turned landing lights off at 91600.414 73098.805"
 
   """
