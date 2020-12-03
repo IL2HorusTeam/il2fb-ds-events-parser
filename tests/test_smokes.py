@@ -28,9 +28,9 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertEqual(evt.data.actor.aircraft, "P-39D2")
     self.assertTrue(evt.data.state)
-    self.assertEqual(evt.data.coord.x, float("91600.414"))
-    self.assertEqual(evt.data.coord.y, float("73098.805"))
-    self.assertEqual(evt.data.coord.z, float("661.9586"))
+    self.assertEqual(evt.data.pos.x, float("91600.414"))
+    self.assertEqual(evt.data.pos.y, float("73098.805"))
+    self.assertEqual(evt.data.pos.z, float("661.9586"))
 
   def test_parse_line_toggle_on_no_z_coord(self):
     timestamp = datetime.time(15, 46, 8)
@@ -39,7 +39,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
     self.assertTrue(evt.data.state)
-    self.assertEqual(evt.data.coord.z, 0)
+    self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_toggle_off(self):
     timestamp = datetime.time(15, 46, 8)
@@ -56,4 +56,4 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
     self.assertFalse(evt.data.state)
-    self.assertEqual(evt.data.coord.z, 0)
+    self.assertEqual(evt.data.pos.z, 0)

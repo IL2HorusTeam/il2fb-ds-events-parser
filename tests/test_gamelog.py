@@ -26,16 +26,15 @@ class GamelogLineParserTestCase(unittest.TestCase):
     parser = GamelogLineParser()
 
     items = [
-      (HumanConnectionEstablishedLightEvent, "[3:50:25 PM] TheUser has connected"),
-      (HumanConnectionLostLightEvent,        "[3:50:25 PM] TheUser has disconnected"),
-
       (MissionLoadedEvent,                   "[Aug 3, 2020 3:46:08 PM] Mission: net/dogfight/1596469535.mis is Playing"),
       (MissionStartedEvent,                  "[3:46:08 PM] Mission BEGIN"),
       (MissionEndedEvent,                    "[3:46:16 PM] Mission END"),
 
+      (HumanConnectionEstablishedLightEvent, "[3:50:25 PM] TheUser has connected"),
+      (HumanConnectionLostLightEvent,        "[3:50:25 PM] TheUser has disconnected"),
+
       (HumanToggledRecordingEvent,           "[3:46:16 PM] TheUser started NTRK record"),
       (HumanToggledRecordingEvent,           "[3:46:16 PM] TheUser stopped NTRK record"),
-
       (HumanToggledRecordingEvent,           "[3:46:16 PM]   started NTRK record"),
       (HumanToggledRecordingEvent,           "[3:46:16 PM]   stopped NTRK record"),
 

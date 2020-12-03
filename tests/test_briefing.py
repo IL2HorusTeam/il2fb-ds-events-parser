@@ -53,9 +53,9 @@ class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertEqual(evt.data.belligerent, BELLIGERENTS.RED)
-    self.assertEqual(evt.data.coord.x, float("134055.0"))
-    self.assertEqual(evt.data.coord.y, float("136158.0"))
-    self.assertEqual(evt.data.coord.z, 0)
+    self.assertEqual(evt.data.pos.x, 134055.0)
+    self.assertEqual(evt.data.pos.y, 136158.0)
+    self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_no_z_coord(self):
     timestamp = datetime.time(15, 46, 8)
@@ -63,4 +63,4 @@ class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanSelectedAirfieldEvent)
-    self.assertEqual(evt.data.coord.z, 0)
+    self.assertEqual(evt.data.pos.z, 0)

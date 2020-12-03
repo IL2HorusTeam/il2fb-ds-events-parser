@@ -14,7 +14,7 @@ from il2fb.ds.events.definitions.briefing import HumanReturnedToBriefingInfo
 from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldInfo
 
 from .base import LineWithTimeParser
-from .regex import COORD_REGEX
+from .regex import POS_REGEX
 
 from ._utils import export
 
@@ -23,7 +23,7 @@ HUMAN_RETURNED_TO_BRIEFING_SUFFIX     = " entered refly menu"
 HUMAN_RETURNED_TO_BRIEFING_SUFFIX_LEN = len(HUMAN_RETURNED_TO_BRIEFING_SUFFIX)
 
 HUMAN_SELECTED_AIRFIELD_REGEX = re.compile(
-  rf"^(?P<callsign>.+) selected army (?P<belligerent>.+) at {COORD_REGEX}$"
+  rf"^(?P<callsign>.+) selected army (?P<belligerent>.+) at {POS_REGEX}$"
 )
 
 
@@ -70,7 +70,7 @@ class HumanSelectedAirfieldLineParser(LineWithTimeParser):
     belligerent = match.group('belligerent').upper()
     belligerent = BELLIGERENTS[belligerent]
 
-    coord = Point3D(
+    pos = Point3D(
       x=float(match.group('x')),
       y=float(match.group('y')),
       z=float(match.group('z') or 0),
@@ -80,5 +80,5 @@ class HumanSelectedAirfieldLineParser(LineWithTimeParser):
       timestamp=timestamp,
       actor=actor,
       belligerent=belligerent,
-      coord=coord,
+      pos=pos,
     ))
