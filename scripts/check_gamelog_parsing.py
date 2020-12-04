@@ -128,8 +128,12 @@ def run(input_stream) -> None:
     try:
       timestamp, line = split_timestamp_or_fail(line)
     except:
-      sys.stderr.write(f"not parsed: {repr(line)}\n")
-      continue
+      try:
+        sys.stderr.write(f"not parsed: {repr(line)}\n")
+      except BrokenPipeError:
+        return
+      else:
+        continue
 
     for parser in parsers:
       evt = parser.parse_line(timestamp, line)
@@ -139,7 +143,10 @@ def run(input_stream) -> None:
         parsers_to_events[parser.__class__.__name__].add(evt.name)
         break
     else:
-      sys.stderr.write(f"not parsed: {repr(line)}\n")
+      try:
+        sys.stderr.write(f"not parsed: {repr(line)}\n")
+      except BrokenPipeError:
+        return
 
   time_elapsed = time.monotonic() - time_start
 

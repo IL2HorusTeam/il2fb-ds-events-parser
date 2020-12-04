@@ -132,7 +132,10 @@ def run(input_stream) -> None:
         parsers_to_events[parser.__class__.__name__].add(evt.name)
         break
     else:
-      sys.stderr.write(f"not parsed: {repr(line)}\n")
+      try:
+        sys.stderr.write(f"not parsed: {repr(line)}\n")
+      except BrokenPipeError:
+        return
 
   time_elapsed = time.monotonic() - time_start
 
