@@ -32,10 +32,10 @@ class HumanAircraftToggledWingtipSmokesLineParser(LineWithTimestampParser):
 
   Examples of input lines:
 
-    "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
-    "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805"
+    "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805"
+    "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     " The User :P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     " :P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     ":P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"

@@ -13,6 +13,7 @@ from il2fb.ds.events.definitions.mission import MissionStartedEvent
 from il2fb.ds.events.definitions.mission import MissionEndedEvent
 
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingEvent
+from il2fb.ds.events.definitions.seats import HumanOccupiedCrewMemberSeatEvent
 from il2fb.ds.events.definitions.smokes import HumanAircraftToggledWingtipSmokesEvent
 
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
@@ -101,6 +102,12 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (HumanAircraftTookOffEvent,              "[3:50:25 PM]  The User :P-39D2 in flight at 91600.414 73098.805 661.9586"),
       (HumanAircraftTookOffEvent,              "[3:50:25 PM]  :P-39D2 in flight at 91600.414 73098.805 661.9586"),
       (HumanAircraftTookOffEvent,              "[3:50:25 PM] :P-39D2 in flight at 91600.414 73098.805 661.9586"),
+
+      (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM] TheUser:TB-7_M40F(2) seat occupied by TheUser at 91600.414 73098.805 661.9586"),
+      (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM] TheUser:TB-7_M40F(2) seat occupied by TheUser at 91600.414 73098.805"),
+      (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM]  The User :TB-7_M40F(2) seat occupied by  The User  at 91600.414 73098.805 661.9586"),
+      (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM]  :TB-7_M40F(2) seat occupied by   at 91600.414 73098.805 661.9586"),
+      (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM] :TB-7_M40F(2) seat occupied by  at 91600.414 73098.805 661.9586"),
     ]
 
     for cls, line in items:

@@ -23,6 +23,7 @@ from .mission import MissionStartedLineParser
 from .mission import MissionEndedLineParser
 
 from .recording import HumanToggledRecordingLineParser
+from .seats import HumanOccupiedCrewMemberSeatLineParser
 from .smokes import HumanAircraftToggledWingtipSmokesLineParser
 
 from .spawning import HumanAircraftSpawnedLineParser
@@ -34,6 +35,7 @@ from ._utils import export
 
 
 DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
+  HumanOccupiedCrewMemberSeatLineParser,
   HumanAircraftToggledWingtipSmokesLineParser,
   HumanAircraftSpawnedLineParser,
   HumanReturnedToBriefingLineParser,

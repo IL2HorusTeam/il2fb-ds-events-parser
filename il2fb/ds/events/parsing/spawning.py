@@ -47,6 +47,7 @@ class HumanAircraftSpawnedLineParser(LineWithTimestampParser):
 
   Examples of input lines:
 
+    "TheUser:TB-7_M40F removed at 145663.6 62799.64"
     "TheUser:TB-7_M40F removed at 145663.6 62799.64 83.96088"
     " The User :TB-7_M40F removed at 145663.6 62799.64 83.96088"
     " :TB-7_M40F removed at 145663.6 62799.64 83.96088"
