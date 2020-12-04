@@ -1,15 +1,15 @@
 import datetime
 import unittest
 
-from il2fb.ds.events.definitions.lights import HumanToggledLandingLightsEvent
+from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLightsEvent
 
-from il2fb.ds.events.parsing.lights import HumanToggledLandingLightsLineParser
+from il2fb.ds.events.parsing.lights import HumanAircraftToggledLandingLightsEventLineParser
 
 
-class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
+class HumanAircraftToggledLandingLightsEventLineParserTestCase(unittest.TestCase):
 
   def setUp(self):
-    self.parser = HumanToggledLandingLightsLineParser()
+    self.parser = HumanAircraftToggledLandingLightsEventLineParser()
 
   def test_parse_line_no_match(self):
     timestamp = None
@@ -23,7 +23,7 @@ class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned landing lights on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertEqual(evt.data.actor.aircraft, "P-39D2")
@@ -37,7 +37,7 @@ class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertFalse(evt.data.state)
 
   def test_parse_line_no_z_coord(self):
@@ -45,7 +45,7 @@ class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned landing lights on at 91600.414 73098.805"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_stripped_callsign_spaces(self):
@@ -53,7 +53,7 @@ class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
     line = " The User :P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
   def test_parse_line_empty_callsign(self):
@@ -62,11 +62,11 @@ class HumanToggledLandingLightsLineParserTestCase(unittest.TestCase):
     line = " :P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertEqual(evt.data.actor.callsign, "")
 
     line = ":P-39D2 turned landing lights off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledLandingLightsEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledLandingLightsEvent)
     self.assertEqual(evt.data.actor.callsign, "")

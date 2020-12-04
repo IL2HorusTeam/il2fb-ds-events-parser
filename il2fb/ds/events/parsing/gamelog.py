@@ -16,7 +16,7 @@ from .briefing import HumanSelectedAirfieldLineParser
 from .connection import HumanConnectionEstablishedLightLineParser
 from .connection import HumanConnectionLostLightLineParser
 
-from .lights import HumanToggledLandingLightsLineParser
+from .lights import HumanAircraftToggledLandingLightsEventLineParser
 
 from .mission import MissionLoadedLineParser
 from .mission import MissionStartedLineParser
@@ -24,13 +24,13 @@ from .mission import MissionEndedLineParser
 
 from .recording import HumanToggledRecordingLineParser
 
-from .smokes import HumanToggledWingtipSmokesLineParser
+from .smokes import HumanAircraftToggledWingtipSmokesLineParser
 
 from ._utils import export
 
 
 DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
-  HumanToggledWingtipSmokesLineParser,
+  HumanAircraftToggledWingtipSmokesLineParser,
   HumanReturnedToBriefingLineParser,
   HumanSelectedAirfieldLineParser,
   HumanConnectionEstablishedLightLineParser,
@@ -39,7 +39,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   MissionStartedLineParser,
   MissionEndedLineParser,
   HumanToggledRecordingLineParser,
-  HumanToggledLandingLightsLineParser,
+  HumanAircraftToggledLandingLightsEventLineParser,
 )
 
 

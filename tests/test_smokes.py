@@ -1,15 +1,15 @@
 import datetime
 import unittest
 
-from il2fb.ds.events.definitions.smokes import HumanToggledWingtipSmokesEvent
+from il2fb.ds.events.definitions.smokes import HumanAircraftToggledWingtipSmokesEvent
 
-from il2fb.ds.events.parsing.smokes import HumanToggledWingtipSmokesLineParser
+from il2fb.ds.events.parsing.smokes import HumanAircraftToggledWingtipSmokesLineParser
 
 
-class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
+class HumanAircraftToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
 
   def setUp(self):
-    self.parser = HumanToggledWingtipSmokesLineParser()
+    self.parser = HumanAircraftToggledWingtipSmokesLineParser()
 
   def test_parse_line_no_match(self):
     timestamp = None
@@ -23,7 +23,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertEqual(evt.data.actor.aircraft, "P-39D2")
@@ -37,7 +37,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertFalse(evt.data.state)
 
   def test_parse_line_no_z_coord(self):
@@ -45,7 +45,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     line = "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_stripped_callsign_spaces(self):
@@ -53,7 +53,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     line = " The User :P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
   def test_parse_line_empty_callsign(self):
@@ -62,11 +62,11 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     line = " :P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertEqual(evt.data.actor.callsign, "")
 
     line = ":P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
-    self.assertIsInstance(evt, HumanToggledWingtipSmokesEvent)
+    self.assertIsInstance(evt, HumanAircraftToggledWingtipSmokesEvent)
     self.assertEqual(evt.data.actor.callsign, "")
