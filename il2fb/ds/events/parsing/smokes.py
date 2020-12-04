@@ -12,8 +12,7 @@ from il2fb.ds.events.definitions.smokes import HumanAircraftToggledWingtipSmokes
 from .base import LineWithTimestampParser
 from .text import strip_spaces
 
-from .regex import AIRCRAFT_REGEX
-from .regex import CALLSIGN_REGEX
+from .regex import HUMAN_AIRCRAFT_REGEX
 from .regex import POS_REGEX
 
 from ._utils import export
@@ -23,7 +22,7 @@ STATE_ON_LITERAL  = "on"
 STATE_OFF_LITERAL = "off"
 
 HUMAN_TOGGLED_WINGTIP_SMOKES_REGEX = re.compile(
-  rf"^{CALLSIGN_REGEX}:{AIRCRAFT_REGEX} turned wingtip smokes (?P<state>{STATE_ON_LITERAL}|{STATE_OFF_LITERAL}) at {POS_REGEX}$"
+  rf"^{HUMAN_AIRCRAFT_REGEX} turned wingtip smokes (?P<state>{STATE_ON_LITERAL}|{STATE_OFF_LITERAL}) at {POS_REGEX}$"
 )
 
 
