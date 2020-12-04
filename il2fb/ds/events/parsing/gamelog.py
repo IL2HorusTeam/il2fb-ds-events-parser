@@ -24,7 +24,9 @@ from .mission import MissionEndedLineParser
 
 from .recording import HumanToggledRecordingLineParser
 from .smokes import HumanAircraftToggledWingtipSmokesLineParser
+
 from .spawning import HumanAircraftSpawnedLineParser
+from .spawning import AircraftDespawnedLineParser
 
 from ._utils import export
 
@@ -41,6 +43,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   MissionEndedLineParser,
   HumanToggledRecordingLineParser,
   HumanAircraftToggledLandingLightsEventLineParser,
+  AircraftDespawnedLineParser,
 )
 
 

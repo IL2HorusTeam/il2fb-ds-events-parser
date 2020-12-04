@@ -14,6 +14,9 @@ from il2fb.ds.events.definitions.mission import MissionEndedEvent
 
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingEvent
 from il2fb.ds.events.definitions.smokes import HumanAircraftToggledWingtipSmokesEvent
+
+from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
+from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
@@ -81,6 +84,15 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (HumanAircraftSpawnedEvent,              "[3:50:25 PM]  The User :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
       (HumanAircraftSpawnedEvent,              "[3:50:25 PM]  :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
       (HumanAircraftSpawnedEvent,              "[3:50:25 PM] :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
+
+      (HumanAircraftDespawnedEvent,            "[3:50:25 PM] TheUser:TB-7_M40F removed at 145663.6 62799.64"),
+      (HumanAircraftDespawnedEvent,            "[3:50:25 PM] TheUser:TB-7_M40F removed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftDespawnedEvent,            "[3:50:25 PM]  The User :TB-7_M40F removed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftDespawnedEvent,            "[3:50:25 PM]  :TB-7_M40F removed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftDespawnedEvent,            "[3:50:25 PM] :TB-7_M40F removed at 145663.6 62799.64 83.96088"),
+
+      (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64"),
+      (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64 83.96088"),
     ]
 
     for cls, line in items:

@@ -1,0 +1,2 @@
+PERCENT_LITERAL      = "%"
+HUMAN_AIRCRAFT_DELIM = ":"
