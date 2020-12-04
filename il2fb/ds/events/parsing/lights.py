@@ -10,19 +10,18 @@ from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLights
 from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLightsInfo
 
 from .base import LineWithTimestampParser
+from .literals import SWITCH_STATE_ON_LITERAL
 from .text import strip_spaces
 
 from .regex import HUMAN_AIRCRAFT_REGEX
+from .regex import SWITCH_STATE_REGEX
 from .regex import POS_REGEX
 
 from ._utils import export
 
 
-STATE_ON_LITERAL  = "on"
-STATE_OFF_LITERAL = "off"
-
 HUMAN_TOGGLED_LANDING_LIGHTS_REGEX = re.compile(
-  rf"^{HUMAN_AIRCRAFT_REGEX} turned landing lights (?P<state>{STATE_ON_LITERAL}|{STATE_OFF_LITERAL}) at {POS_REGEX}$"
+  rf"^{HUMAN_AIRCRAFT_REGEX} turned landing lights {SWITCH_STATE_REGEX} at {POS_REGEX}$"
 )
 
 
@@ -54,7 +53,7 @@ class HumanAircraftToggledLandingLightsEventLineParser(LineWithTimestampParser):
       aircraft=match.group('aircraft'),
     )
 
-    state = (match.group('state') == STATE_ON_LITERAL)
+    state = (match.group('state') == SWITCH_STATE_ON_LITERAL)
 
     pos = Point3D(
       x=float(match.group('x')),
