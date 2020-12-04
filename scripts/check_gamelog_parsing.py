@@ -128,7 +128,7 @@ def run(input_stream) -> None:
     try:
       timestamp, line = split_timestamp_or_fail(line)
     except:
-      print(f"not parsed: {repr(line)}")
+      sys.stderr.write(f"not parsed: {repr(line)}\n")
       continue
 
     for parser in parsers:
@@ -139,7 +139,7 @@ def run(input_stream) -> None:
         parsers_to_events[parser.__class__.__name__].add(evt.name)
         break
     else:
-      print(f"not parsed: {repr(line)}")
+      sys.stderr.write(f"not parsed: {repr(line)}\n")
 
   time_elapsed = time.monotonic() - time_start
 
