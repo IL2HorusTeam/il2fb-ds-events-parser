@@ -24,6 +24,8 @@ from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 from .base import PlainLineParser
 from .base import LineWithTimestampParser
 
+from .text import strip_spaces
+
 from ._utils import export
 
 
@@ -36,15 +38,15 @@ HUMAN_CONNECTION_FAILED_EVENT_REGEX = re.compile(
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
   r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
 )
-HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX = re.compile(
-  r"^(?P<callsign>.+) has connected$"
-)
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
-  r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason:(?P<reason>.*)$"
+  r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason: (?P<reason>.*)$"
 )
-HUMAN_CONNECTION_LOST_LIGHT_REGEX = re.compile(
-  r"^(?P<callsign>.+) has disconnected$"
-)
+
+HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX     = " has connected"
+HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX_LEN = len(HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX)
+
+HUMAN_CONNECTION_LOST_LIGHT_SUFFIX     = " has disconnected"
+HUMAN_CONNECTION_LOST_LIGHT_SUFFIX_LEN = len(HUMAN_CONNECTION_LOST_LIGHT_SUFFIX)
 
 
 @export
@@ -113,6 +115,8 @@ class HumanConnectionEstablishedLineParser(PlainLineParser):
   Examples of input lines:
 
     "socket channel '699', ip 127.0.0.1:21000, TheUser, is complete created"
+    "socket channel '699', ip 127.0.0.1:21000,  The User , is complete created"
+    "socket channel '115', ip 127.0.0.1:4114,   , is complete created"
     "socket channel '115', ip 127.0.0.1:4114, , is complete created"
 
   """
@@ -124,40 +128,37 @@ class HumanConnectionEstablishedLineParser(PlainLineParser):
     channel_no = int(match.group('channel_no'))
     port       = int(match.group('port'))
     host       = match.group('host')
-
-    callsign = match.group('callsign')
-    if callsign is not None:
-      callsign = callsign.strip()
-
-    actor = HumanActor(callsign) if callsign else None
+    callsign   = strip_spaces(match.group('callsign'))
 
     return HumanConnectionEstablishedEvent(HumanConnectionEstablishedInfo(
       address=ConnectionAddress(host=host, port=port),
       channel_no=channel_no,
-      actor=actor,
+      actor=HumanActor(callsign=callsign),
     ))
 
 
 @export
 class HumanConnectionEstablishedLightLineParser(LineWithTimestampParser):
   """
-  Parses game log messages about establishing of a human connection.
+  Parses gamelog messages about establishing of a human connection.
 
   Examples of input lines:
 
     "TheUser has connected"
+    " The User  has connected"
+    "  has connected"
+    " has connected"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionEstablishedLightEvent]:
-    match = HUMAN_CONNECTION_ESTABLISHED_LIGHT_REGEX.match(line)
-    if not match:
+    if not line.endswith(HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX):
       return
 
-    callsign = match.group('callsign')
+    callsign = strip_spaces(line[:-HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX_LEN])
 
     return HumanConnectionEstablishedLightEvent(HumanConnectionEstablishedLightInfo(
       timestamp=timestamp,
-      actor=HumanActor(callsign),
+      actor=HumanActor(callsign=callsign),
     ))
 
 
@@ -169,7 +170,7 @@ class HumanConnectionLostLineParser(PlainLineParser):
   Examples of input lines:
 
     "socketConnection with 127.0.0.1:60500 on channel 709 lost.  Reason: You have been kicked from the server."
-    "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason:"
+    "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason: "
 
   """
   def parse_line(self, line: str) -> Optional[HumanConnectionLostEvent]:
@@ -197,21 +198,24 @@ class HumanConnectionLostLineParser(PlainLineParser):
 @export
 class HumanConnectionLostLightLineParser(LineWithTimestampParser):
   """
-  Parses game log messages about loss of a human connection.
+  Parses gamelog messages about loss of a human connection.
 
   Examples of input lines:
 
     "TheUser has disconnected"
+    " The User  has disconnected"
+    "  has disconnected"
+    " has disconnected"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanConnectionLostLightEvent]:
-    match = HUMAN_CONNECTION_LOST_LIGHT_REGEX.match(line)
-    if not match:
+    if not line.endswith(HUMAN_CONNECTION_LOST_LIGHT_SUFFIX):
       return
 
-    callsign = match.group('callsign')
+    callsign = strip_spaces(line[:-HUMAN_CONNECTION_LOST_LIGHT_SUFFIX_LEN])
+
 
     return HumanConnectionLostLightEvent(HumanConnectionLostLightInfo(
       timestamp=timestamp,
-      actor=HumanActor(callsign),
+      actor=HumanActor(callsign=callsign),
     ))

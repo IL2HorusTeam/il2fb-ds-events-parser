@@ -89,12 +89,25 @@ class HumanConnectionEstablishedLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.address.port, 21000)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
-  def test_parse_line_no_actor(self):
-    line = "socket channel '115', ip 127.0.0.1:4114, , is complete created"
+  def test_parse_line_stripped_callsign_spaces(self):
+    line = "socket channel '699', ip 127.0.0.1:21000,  The User , is complete created"
     evt  = self.parser.parse_line(line)
 
     self.assertIsInstance(evt, HumanConnectionEstablishedEvent)
-    self.assertIsNone(evt.data.actor)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    line = "socket channel '699', ip 127.0.0.1:21000,  , is complete created"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = "socket channel '699', ip 127.0.0.1:21000, , is complete created"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
 
 
 class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
@@ -118,6 +131,29 @@ class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
 
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_stripped_callsign_spaces(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+    line = " The User  has connected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+
+    line = "  has connected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = " has connected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionEstablishedLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
 
 
 class HumanConnectionLostLineParserTestCase(unittest.TestCase):
@@ -143,7 +179,7 @@ class HumanConnectionLostLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.reason, "You have been kicked from the server.")
 
   def test_parse_line_no_reason(self):
-    line = "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason:"
+    line = "socketConnection with 127.0.0.1:21000 on channel 703 lost.  Reason: "
     evt  = self.parser.parse_line(line)
 
     self.assertIsInstance(evt, HumanConnectionLostEvent)
@@ -171,3 +207,26 @@ class HumanConnectionLostLightLineParserTestCase(unittest.TestCase):
 
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_stripped_callsign_spaces(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+    line = " The User  has disconnected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionLostLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+
+    line = "  has disconnected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionLostLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = " has disconnected"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanConnectionLostLightEvent)
+    self.assertEqual(evt.data.actor.callsign, "")

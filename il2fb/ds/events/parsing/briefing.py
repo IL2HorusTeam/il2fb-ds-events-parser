@@ -15,6 +15,7 @@ from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldInfo
 
 from .base import LineWithTimestampParser
 from .regex import POS_REGEX
+from .text import strip_spaces
 
 from ._utils import export
 
@@ -23,7 +24,7 @@ HUMAN_RETURNED_TO_BRIEFING_SUFFIX     = " entered refly menu"
 HUMAN_RETURNED_TO_BRIEFING_SUFFIX_LEN = len(HUMAN_RETURNED_TO_BRIEFING_SUFFIX)
 
 HUMAN_SELECTED_AIRFIELD_REGEX = re.compile(
-  rf"^(?P<callsign>.+) selected army (?P<belligerent>.+) at {POS_REGEX}$"
+  rf"^(?P<callsign>.*) selected army (?P<belligerent>.+) at {POS_REGEX}$"
 )
 
 
@@ -35,13 +36,16 @@ class HumanReturnedToBriefingLineParser(LineWithTimestampParser):
   Examples of input lines:
 
     "TheUser entered refly menu"
+    " The User  entered refly menu"
+    "  entered refly menu"
+    " entered refly menu"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanReturnedToBriefingEvent]:
     if not line.endswith(HUMAN_RETURNED_TO_BRIEFING_SUFFIX):
       return
 
-    callsign = line[:-HUMAN_RETURNED_TO_BRIEFING_SUFFIX_LEN].rstrip()
+    callsign = strip_spaces(line[:-HUMAN_RETURNED_TO_BRIEFING_SUFFIX_LEN])
 
     return HumanReturnedToBriefingEvent(HumanReturnedToBriefingInfo(
       timestamp=timestamp,
@@ -56,8 +60,11 @@ class HumanSelectedAirfieldLineParser(LineWithTimestampParser):
 
   Examples of input lines:
 
-    "TheUser selected army Red at 134055.0 136158.0 0.0"
     "TheUser selected army Red at 134055.0 136158.0"
+    "TheUser selected army Red at 134055.0 136158.0 0.0"
+    " The User  selected army Red at 134055.0 136158.0 0.0"
+    "  selected army Red at 134055.0 136158.0 0.0"
+    " selected army Red at 134055.0 136158.0 0.0"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanSelectedAirfieldEvent]:
@@ -65,7 +72,7 @@ class HumanSelectedAirfieldLineParser(LineWithTimestampParser):
     if not match:
       return
 
-    actor = HumanActor(callsign=match.group('callsign'))
+    callsign = strip_spaces(match.group('callsign'))
 
     belligerent = match.group('belligerent').upper()
     belligerent = BELLIGERENTS[belligerent]
@@ -78,7 +85,7 @@ class HumanSelectedAirfieldLineParser(LineWithTimestampParser):
 
     return HumanSelectedAirfieldEvent(HumanSelectedAirfieldInfo(
       timestamp=timestamp,
-      actor=actor,
+      actor=HumanActor(callsign=callsign),
       belligerent=belligerent,
       pos=pos,
     ))

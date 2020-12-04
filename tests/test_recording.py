@@ -28,14 +28,6 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertTrue(evt.data.state)
 
-  def test_parse_line_toggle_on_no_actor(self):
-    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
-    line = "started NTRK record"
-    evt = self.parser.parse_line(timestamp, line)
-
-    self.assertIsInstance(evt, HumanToggledRecordingEvent)
-    self.assertIsNone(evt.data.actor)
-
   def test_parse_line_toggle_off(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser stopped NTRK record"
@@ -44,10 +36,25 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertIsInstance(evt, HumanToggledRecordingEvent)
     self.assertFalse(evt.data.state)
 
-  def test_parse_line_toggle_off_no_actor(self):
+  def test_parse_line_stripped_callsign_spaces(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
-    line = "stopped NTRK record"
+    line = " The User stopped NTRK record"
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanToggledRecordingEvent)
-    self.assertIsNone(evt.data.actor)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+
+    line = "  stopped NTRK record"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanToggledRecordingEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = " stopped NTRK record"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanToggledRecordingEvent)
+    self.assertEqual(evt.data.actor.callsign, "")

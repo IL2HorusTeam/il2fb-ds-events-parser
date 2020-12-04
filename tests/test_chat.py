@@ -18,6 +18,12 @@ class ChatLineParserTestCase(unittest.TestCase):
 
     self.assertIsNone(evt)
 
+  def test_parse_line_invalid_message(self):
+    line = "Chat: foo"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsNone(evt)
+
   def test_parse_line_system_message(self):
     line = "Chat: --- TheUser has left the game."
     evt  = self.parser.parse_line(line)
@@ -40,8 +46,22 @@ class ChatLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.msg, "Message to server")
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
-  def test_parse_line_invalid_message(self):
-    line = "Chat: foo"
+  def test_parse_line_human_message_stripped_callsign_spaces(self):
+    line = "Chat:  The User : \tMessage to server"
     evt  = self.parser.parse_line(line)
 
-    self.assertIsNone(evt)
+    self.assertIsInstance(evt, HumanChatMessageEvent)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_human_message_empty_callsign(self):
+    line = "Chat:  : \tMessage to server"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanChatMessageEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = "Chat: : \tMessage to server"
+    evt  = self.parser.parse_line(line)
+
+    self.assertIsInstance(evt, HumanChatMessageEvent)
+    self.assertEqual(evt.data.actor.callsign, "")

@@ -13,6 +13,7 @@ from il2fb.ds.events.definitions.chat import HumanChatMessageEvent
 
 
 from .base import PlainLineParser
+from .text import strip_spaces
 
 from ._utils import export
 
@@ -37,6 +38,9 @@ class ChatLineParser(PlainLineParser):
     "Chat: --- TheUser has left the game."
     "Chat: Server: \tMessage to everyone"
     "Chat: TheUser: \tMessage to server"
+    "Chat:  The User : \tMessage to server"
+    "Chat:  : \tMessage to server"
+    "Chat: : \tMessage to server"
 
   """
 
@@ -57,7 +61,10 @@ class ChatLineParser(PlainLineParser):
       ))
 
   @staticmethod
-  def _parse_has_sender(line: str) -> Optional[Union[ServerChatMessageEvent, HumanChatMessageEvent]]:
+  def _parse_has_sender(line: str) -> Optional[Union[
+    ServerChatMessageEvent,
+    HumanChatMessageEvent,
+  ]]:
     try:
       sender, msg = line.split(SENDER_DELIMITER, 1)
     except ValueError:
@@ -69,7 +76,8 @@ class ChatLineParser(PlainLineParser):
       ))
 
     else:
+      callsign = strip_spaces(sender)
       return HumanChatMessageEvent(HumanChatMessage(
-        actor=HumanActor(sender),
+        actor=HumanActor(callsign=callsign),
         msg=msg,
       ))

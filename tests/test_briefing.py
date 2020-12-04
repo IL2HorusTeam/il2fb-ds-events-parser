@@ -31,6 +31,29 @@ class HumanReturnedToBriefingLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.timestamp, timestamp)
     self.assertEqual(evt.data.actor.callsign, "TheUser")
 
+  def test_parse_line_stripped_callsign_spaces(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+    line = " The User  entered refly menu"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanReturnedToBriefingEvent)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+
+    line = "  entered refly menu"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanReturnedToBriefingEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = " entered refly menu"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanReturnedToBriefingEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
 
 class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
 
@@ -64,3 +87,26 @@ class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, HumanSelectedAirfieldEvent)
     self.assertEqual(evt.data.pos.z, 0)
+
+  def test_parse_line_stripped_callsign_spaces(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+    line = " The User  selected army Red at 134055.0 136158.0 0.0"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanSelectedAirfieldEvent)
+    self.assertEqual(evt.data.actor.callsign, "TheUser")
+
+  def test_parse_line_empty_callsign(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+
+    line = "  selected army Red at 134055.0 136158.0 0.0"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanSelectedAirfieldEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
+
+    line = " selected army Red at 134055.0 136158.0 0.0"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, HumanSelectedAirfieldEvent)
+    self.assertEqual(evt.data.actor.callsign, "")
