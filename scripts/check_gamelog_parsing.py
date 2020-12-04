@@ -111,10 +111,7 @@ def print_stats(time_elapsed, lines_total, lines_parsed, event_counts, parsers_t
 
 
 def run(input_stream) -> None:
-  parsers = defaultdict(list)
-
-  for cls in DEFAULT_GAMELOG_SUBPARSER_CLASSES:
-    parsers[cls.timestamp_class].append(cls())
+  parsers = [cls() for cls in DEFAULT_GAMELOG_SUBPARSER_CLASSES]
 
   lines_total  = 0
   lines_parsed = 0
@@ -134,7 +131,7 @@ def run(input_stream) -> None:
       print(f"not parsed: {repr(line)}")
       continue
 
-    for parser in parsers[type(timestamp)]:
+    for parser in parsers:
       evt = parser.parse_line(timestamp, line)
       if evt:
         lines_parsed += 1
