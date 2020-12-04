@@ -42,6 +42,13 @@ class SplitTimestampOrFailTestCase(unittest.TestCase):
     self.assertEqual(timestamp, datetime.datetime(1900, 1, 1, 15, 46, 16))
     self.assertEqual(line, "foo")
 
+  def test_left_spaces_preserved(self):
+    line = "[3:46:16 PM]      foo"
+    timestamp, line = split_timestamp_or_fail(line)
+    self.assertEqual(timestamp, datetime.datetime(1900, 1, 1, 15, 46, 16))
+    self.assertEqual(line, "     foo")
+
+
   def test_invalid_timestamp(self):
     with self.assertRaises(ValueError):
       parse_time_or_fail("[foo] bar")

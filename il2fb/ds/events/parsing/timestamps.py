@@ -10,8 +10,9 @@ else:
 DATETIME_FMT = "%b %d, %Y %I:%M:%S %p"
 TIME_FMT     = "%I:%M:%S %p"
 
-TIMESTAMP_LDELIM = "["
-TIMESTAMP_RDELIM = "]"
+TIMESTAMP_LDELIM     = "["
+TIMESTAMP_LDELIM_LEN = len(TIMESTAMP_LDELIM)
+TIMESTAMP_RDELIM     = "] "
 
 
 def parse_datetime_or_fail(text: str) -> datetime.datetime:
@@ -24,13 +25,11 @@ def parse_time_or_fail(text: str) -> datetime.datetime:
 
 def split_timestamp_or_fail(text: str) -> Tuple[datetime.datetime, str]:
   timestamp, text = text.split(TIMESTAMP_RDELIM, 1)
-  timestamp = timestamp.lstrip(TIMESTAMP_LDELIM)
+  timestamp = timestamp[TIMESTAMP_LDELIM_LEN:]
 
   try:
     timestamp = parse_time_or_fail(timestamp)
   except ValueError:
     timestamp = parse_datetime_or_fail(timestamp)
-
-  text = text.lstrip()
 
   return (timestamp, text)
