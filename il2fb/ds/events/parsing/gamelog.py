@@ -28,6 +28,8 @@ from .smokes import HumanAircraftToggledWingtipSmokesLineParser
 from .spawning import HumanAircraftSpawnedLineParser
 from .spawning import AircraftDespawnedLineParser
 
+from .takeoff import HumanAircraftTookOffLineParser
+
 from ._utils import export
 
 
@@ -36,6 +38,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanAircraftSpawnedLineParser,
   HumanReturnedToBriefingLineParser,
   HumanSelectedAirfieldLineParser,
+  HumanAircraftTookOffLineParser,
   HumanConnectionEstablishedLightLineParser,
   HumanConnectionLostLightLineParser,
   MissionLoadedLineParser,

@@ -20,7 +20,7 @@ from .regex import POS_REGEX
 from ._utils import export
 
 
-HUMAN_TOGGLED_LANDING_LIGHTS_REGEX = re.compile(
+HUMAN_AIRCRAFT_TOGGLED_LANDING_LIGHTS_REGEX = re.compile(
   rf"^{HUMAN_AIRCRAFT_REGEX} turned landing lights {SWITCH_STATE_REGEX} at {POS_REGEX}$"
 )
 
@@ -42,7 +42,7 @@ class HumanAircraftToggledLandingLightsEventLineParser(LineWithTimestampParser):
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanAircraftToggledLandingLightsEvent]:
-    match = HUMAN_TOGGLED_LANDING_LIGHTS_REGEX.match(line)
+    match = HUMAN_AIRCRAFT_TOGGLED_LANDING_LIGHTS_REGEX.match(line)
     if not match:
       return
 

@@ -19,7 +19,8 @@ from .regex import POS_REGEX
 
 from ._utils import export
 
-HUMAN_TOGGLED_WINGTIP_SMOKES_REGEX = re.compile(
+
+HUMAN_AIRCRAFT_TOGGLED_WINGTIP_SMOKES_REGEX = re.compile(
   rf"^{HUMAN_AIRCRAFT_REGEX} turned wingtip smokes {SWITCH_STATE_REGEX} at {POS_REGEX}$"
 )
 
@@ -41,7 +42,7 @@ class HumanAircraftToggledWingtipSmokesLineParser(LineWithTimestampParser):
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanAircraftToggledWingtipSmokesEvent]:
-    match = HUMAN_TOGGLED_WINGTIP_SMOKES_REGEX.match(line)
+    match = HUMAN_AIRCRAFT_TOGGLED_WINGTIP_SMOKES_REGEX.match(line)
     if not match:
       return
 

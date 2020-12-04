@@ -19,6 +19,8 @@ from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 
+from il2fb.ds.events.definitions.takeoff import HumanAircraftTookOffEvent
+
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
 from il2fb.ds.events.parsing.gamelog import GamelogLineParser
 from il2fb.ds.events.parsing.mission import MissionLoadedLineParser
@@ -93,6 +95,12 @@ class GamelogLineParserTestCase(unittest.TestCase):
 
       (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64"),
       (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64 83.96088"),
+
+      (HumanAircraftTookOffEvent,              "[3:50:25 PM] TheUser:P-39D2 in flight at 91600.414 73098.805"),
+      (HumanAircraftTookOffEvent,              "[3:50:25 PM] TheUser:P-39D2 in flight at 91600.414 73098.805 661.9586"),
+      (HumanAircraftTookOffEvent,              "[3:50:25 PM]  The User :P-39D2 in flight at 91600.414 73098.805 661.9586"),
+      (HumanAircraftTookOffEvent,              "[3:50:25 PM]  :P-39D2 in flight at 91600.414 73098.805 661.9586"),
+      (HumanAircraftTookOffEvent,              "[3:50:25 PM] :P-39D2 in flight at 91600.414 73098.805 661.9586"),
     ]
 
     for cls, line in items:
