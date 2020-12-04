@@ -9,7 +9,7 @@ from il2fb.commons.spatial import Point3D
 from il2fb.ds.events.definitions.lights import HumanToggledLandingLightsEvent
 from il2fb.ds.events.definitions.lights import HumanToggledLandingLightsInfo
 
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 from .regex import POS_REGEX
 
 from ._utils import export
@@ -24,7 +24,7 @@ HUMAN_TOGGLED_LANDING_LIGHTS_REGEX = re.compile(
 
 
 @export
-class HumanToggledLandingLightsLineParser(LineWithTimeParser):
+class HumanToggledLandingLightsLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about landing lights events.
 
@@ -36,7 +36,7 @@ class HumanToggledLandingLightsLineParser(LineWithTimeParser):
     "TheUser:P-39D2 turned landing lights off at 91600.414 73098.805"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[HumanToggledLandingLightsEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanToggledLandingLightsEvent]:
     match = HUMAN_TOGGLED_LANDING_LIGHTS_REGEX.match(line)
     if not match:
       return

@@ -9,7 +9,7 @@ from il2fb.commons.spatial import Point3D
 from il2fb.ds.events.definitions.smokes import HumanToggledWingtipSmokesEvent
 from il2fb.ds.events.definitions.smokes import HumanToggledWingtipSmokesInfo
 
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 from .regex import POS_REGEX
 
 from ._utils import export
@@ -24,7 +24,7 @@ HUMAN_TOGGLED_WINGTIP_SMOKES_REGEX = re.compile(
 
 
 @export
-class HumanToggledWingtipSmokesLineParser(LineWithTimeParser):
+class HumanToggledWingtipSmokesLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about wingtip smokes events.
 
@@ -36,7 +36,7 @@ class HumanToggledWingtipSmokesLineParser(LineWithTimeParser):
     "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[HumanToggledWingtipSmokesEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanToggledWingtipSmokesEvent]:
     match = HUMAN_TOGGLED_WINGTIP_SMOKES_REGEX.match(line)
     if not match:
       return

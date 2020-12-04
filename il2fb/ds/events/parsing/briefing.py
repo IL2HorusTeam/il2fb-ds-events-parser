@@ -13,7 +13,7 @@ from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldEvent
 from il2fb.ds.events.definitions.briefing import HumanReturnedToBriefingInfo
 from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldInfo
 
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 from .regex import POS_REGEX
 
 from ._utils import export
@@ -28,7 +28,7 @@ HUMAN_SELECTED_AIRFIELD_REGEX = re.compile(
 
 
 @export
-class HumanReturnedToBriefingLineParser(LineWithTimeParser):
+class HumanReturnedToBriefingLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about users returning to briefing.
 
@@ -37,7 +37,7 @@ class HumanReturnedToBriefingLineParser(LineWithTimeParser):
     "TheUser entered refly menu"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[HumanReturnedToBriefingEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanReturnedToBriefingEvent]:
     if not line.endswith(HUMAN_RETURNED_TO_BRIEFING_SUFFIX):
       return
 
@@ -50,7 +50,7 @@ class HumanReturnedToBriefingLineParser(LineWithTimeParser):
 
 
 @export
-class HumanSelectedAirfieldLineParser(LineWithTimeParser):
+class HumanSelectedAirfieldLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about selection of airfields by users.
 
@@ -60,7 +60,7 @@ class HumanSelectedAirfieldLineParser(LineWithTimeParser):
     "TheUser selected army Red at 134055.0 136158.0"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[HumanSelectedAirfieldEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanSelectedAirfieldEvent]:
     match = HUMAN_SELECTED_AIRFIELD_REGEX.match(line)
     if not match:
       return

@@ -19,7 +19,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line_toggle_on(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -33,7 +33,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.pos.z, float("661.9586"))
 
   def test_parse_line_toggle_on_no_z_coord(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser:P-39D2 turned wingtip smokes on at 91600.414 73098.805"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -42,7 +42,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_toggle_off(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -50,7 +50,7 @@ class HumanToggledWingtipSmokesLineParserTestCase(unittest.TestCase):
     self.assertFalse(evt.data.state)
 
   def test_parse_line_toggle_off_no_z_coord(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser:P-39D2 turned wingtip smokes off at 91600.414 73098.805"
     evt = self.parser.parse_line(timestamp, line)
 

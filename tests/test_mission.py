@@ -48,7 +48,7 @@ class MissionStartedLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "Mission BEGIN"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -69,7 +69,7 @@ class MissionEndedLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "Mission END"
     evt = self.parser.parse_line(timestamp, line)
 

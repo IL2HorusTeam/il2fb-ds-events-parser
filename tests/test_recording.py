@@ -19,7 +19,7 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line_toggle_on(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser started NTRK record"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -29,7 +29,7 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertTrue(evt.data.state)
 
   def test_parse_line_toggle_on_no_actor(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "started NTRK record"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -37,7 +37,7 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt.data.actor)
 
   def test_parse_line_toggle_off(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser stopped NTRK record"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -45,7 +45,7 @@ class HumanToggledRecordingLineParserTestCase(unittest.TestCase):
     self.assertFalse(evt.data.state)
 
   def test_parse_line_toggle_off_no_actor(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "stopped NTRK record"
     evt = self.parser.parse_line(timestamp, line)
 

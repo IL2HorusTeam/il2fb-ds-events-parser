@@ -13,8 +13,7 @@ from il2fb.ds.events.definitions.mission import MissionLoadedEvent
 from il2fb.ds.events.definitions.mission import MissionStartedEvent
 from il2fb.ds.events.definitions.mission import MissionEndedEvent
 
-from .base import LineWithDatetimeParser
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 
 from ._utils import export
 
@@ -28,7 +27,7 @@ MISSION_ENDED_EVENT_LITERAL   = "Mission END"
 
 
 @export
-class MissionLoadedLineParser(LineWithDatetimeParser):
+class MissionLoadedLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about loaded missions.
 
@@ -51,7 +50,7 @@ class MissionLoadedLineParser(LineWithDatetimeParser):
 
 
 @export
-class MissionStartedLineParser(LineWithTimeParser):
+class MissionStartedLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about started missions.
 
@@ -60,13 +59,13 @@ class MissionStartedLineParser(LineWithTimeParser):
     "Mission BEGIN"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[MissionStartedEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[MissionStartedEvent]:
     if line == MISSION_STARTED_EVENT_LITERAL:
       return MissionStartedEvent(MissionStartedInfo(timestamp=timestamp))
 
 
 @export
-class MissionEndedLineParser(LineWithTimeParser):
+class MissionEndedLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about ended missions.
 
@@ -75,6 +74,6 @@ class MissionEndedLineParser(LineWithTimeParser):
     "Mission END"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[MissionEndedEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[MissionEndedEvent]:
     if line == MISSION_ENDED_EVENT_LITERAL:
       return MissionEndedEvent(MissionEndedInfo(timestamp=timestamp))

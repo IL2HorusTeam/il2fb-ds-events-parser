@@ -23,7 +23,7 @@ class HumanReturnedToBriefingLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser entered refly menu"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -45,7 +45,7 @@ class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser selected army Red at 134055.0 136158.0 0.0"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -58,7 +58,7 @@ class HumanSelectedAirfieldLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.pos.z, 0)
 
   def test_parse_line_no_z_coord(self):
-    timestamp = datetime.time(15, 46, 8)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser selected army Red at 134055.0 136158.0"
     evt = self.parser.parse_line(timestamp, line)
 

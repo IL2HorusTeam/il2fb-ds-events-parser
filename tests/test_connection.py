@@ -110,7 +110,7 @@ class HumanConnectionEstablishedLightLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    timestamp = datetime.time(18, 36, 45)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser has connected"
     evt = self.parser.parse_line(timestamp, line)
 
@@ -163,7 +163,7 @@ class HumanConnectionLostLightLineParserTestCase(unittest.TestCase):
     self.assertIsNone(evt)
 
   def test_parse_line(self):
-    timestamp = datetime.time(21, 14, 48)
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
     line = "TheUser has disconnected"
     evt = self.parser.parse_line(timestamp, line)
 

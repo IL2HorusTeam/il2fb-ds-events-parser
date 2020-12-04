@@ -8,7 +8,7 @@ from il2fb.commons.actors import HumanActor
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingEvent
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingInfo
 
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 
 from ._utils import export
 
@@ -22,7 +22,7 @@ HUMAN_TOGGLED_RECORDING_REGEX = re.compile(
 
 
 @export
-class HumanToggledRecordingLineParser(LineWithTimeParser):
+class HumanToggledRecordingLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about track recording events.
 
@@ -34,7 +34,7 @@ class HumanToggledRecordingLineParser(LineWithTimeParser):
     "stopped NTRK record"
 
   """
-  def parse_line(self, timestamp: datetime.time, line: str) -> Optional[HumanToggledRecordingEvent]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[HumanToggledRecordingEvent]:
     match = HUMAN_TOGGLED_RECORDING_REGEX.match(line)
     if not match:
       return

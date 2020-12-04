@@ -22,7 +22,7 @@ from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
 
 from .base import PlainLineParser
-from .base import LineWithTimeParser
+from .base import LineWithTimestampParser
 
 from ._utils import export
 
@@ -139,7 +139,7 @@ class HumanConnectionEstablishedLineParser(PlainLineParser):
 
 
 @export
-class HumanConnectionEstablishedLightLineParser(LineWithTimeParser):
+class HumanConnectionEstablishedLightLineParser(LineWithTimestampParser):
   """
   Parses game log messages about establishing of a human connection.
 
@@ -195,7 +195,7 @@ class HumanConnectionLostLineParser(PlainLineParser):
 
 
 @export
-class HumanConnectionLostLightLineParser(LineWithTimeParser):
+class HumanConnectionLostLightLineParser(LineWithTimestampParser):
   """
   Parses game log messages about loss of a human connection.
 

@@ -7,8 +7,8 @@ else:
 
 from typing import Optional
 
-from .base import AbstractLineWithTimestampParser
 from .base import CompositeLineWithTimestampParser
+from .base import LineWithTimestampParser
 
 from .briefing import HumanReturnedToBriefingLineParser
 from .briefing import HumanSelectedAirfieldLineParser
@@ -46,7 +46,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
 @export
 class GamelogLineParser(CompositeLineWithTimestampParser):
 
-  def __init__(self, subparsers: Optional[Iterable[AbstractLineWithTimestampParser]] = None) -> None:
+  def __init__(self, subparsers: Optional[Iterable[LineWithTimestampParser]] = None) -> None:
     if not subparsers:
       subparsers = [cls() for cls in DEFAULT_GAMELOG_SUBPARSER_CLASSES]
 

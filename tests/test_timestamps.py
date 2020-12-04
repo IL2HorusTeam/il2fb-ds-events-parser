@@ -21,7 +21,7 @@ class ParseTimeOrFailTestCase(unittest.TestCase):
 
   def test_valid(self):
     timestamp = parse_time_or_fail("3:46:16 PM")
-    self.assertEqual(timestamp, datetime.time(15, 46, 16))
+    self.assertEqual(timestamp, datetime.datetime(1900, 1, 1, 15, 46, 16))
 
   def test_invalid(self):
     with self.assertRaises(ValueError):
@@ -39,7 +39,7 @@ class SplitTimestampOrFailTestCase(unittest.TestCase):
   def test_time(self):
     line = "[3:46:16 PM] foo"
     timestamp, line = split_timestamp_or_fail(line)
-    self.assertEqual(timestamp, datetime.time(15, 46, 16))
+    self.assertEqual(timestamp, datetime.datetime(1900, 1, 1, 15, 46, 16))
     self.assertEqual(line, "foo")
 
   def test_invalid_timestamp(self):
