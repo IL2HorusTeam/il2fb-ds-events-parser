@@ -8,14 +8,17 @@ from il2fb.commons.belligerents import BELLIGERENTS
 from il2fb.commons.spatial import Point3D
 
 from il2fb.ds.events.definitions.briefing import HumanReturnedToBriefingEvent
-from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldEvent
-
 from il2fb.ds.events.definitions.briefing import HumanReturnedToBriefingInfo
+
+from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldEvent
 from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldInfo
 
 from .base import LineWithTimestampParser
-from .regex import POS_REGEX
 from .text import strip_spaces
+
+from .regex import CALLSIGN_REGEX
+from .regex import POS_REGEX
+
 
 from ._utils import export
 
@@ -24,7 +27,7 @@ HUMAN_RETURNED_TO_BRIEFING_SUFFIX     = " entered refly menu"
 HUMAN_RETURNED_TO_BRIEFING_SUFFIX_LEN = len(HUMAN_RETURNED_TO_BRIEFING_SUFFIX)
 
 HUMAN_SELECTED_AIRFIELD_REGEX = re.compile(
-  rf"^(?P<callsign>.*) selected army (?P<belligerent>.+) at {POS_REGEX}$"
+  rf"^{CALLSIGN_REGEX} selected army (?P<belligerent>.+) at {POS_REGEX}$"
 )
 
 

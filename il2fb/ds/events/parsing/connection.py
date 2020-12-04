@@ -7,39 +7,49 @@ from il2fb.commons.actors import HumanActor
 
 from il2fb.ds.events.definitions.connection import ConnectionAddress
 
-from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedInfo
-from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightInfo
-from il2fb.ds.events.definitions.connection import HumanConnectionFailedInfo
-from il2fb.ds.events.definitions.connection import HumanConnectionLostInfo
-from il2fb.ds.events.definitions.connection import HumanConnectionLostLightInfo
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedInfo
-
-from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedEvent
-from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
-from il2fb.ds.events.definitions.connection import HumanConnectionFailedEvent
-from il2fb.ds.events.definitions.connection import HumanConnectionLostEvent
-from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionStartedEvent
+
+from il2fb.ds.events.definitions.connection import HumanConnectionFailedInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionFailedEvent
+
+from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedEvent
+
+from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
+
+from il2fb.ds.events.definitions.connection import HumanConnectionLostInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionLostEvent
+
+from il2fb.ds.events.definitions.connection import HumanConnectionLostLightInfo
+from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
+
 
 from .base import PlainLineParser
 from .base import LineWithTimestampParser
-
 from .text import strip_spaces
+
+from .regex import CALLSIGN_REGEX
+from .regex import CHANNEL_NO_REGEX
+from .regex import HOST_REGEX
+from .regex import PORT_REGEX
+from .regex import REASON_REGEX
 
 from ._utils import export
 
 
 HUMAN_CONNECTION_STARTED_EVENT_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)' start creating: (?P<host>.+):(?P<port>\d+)$"
+  rf"^socket channel '{CHANNEL_NO_REGEX}' start creating: {HOST_REGEX}:{PORT_REGEX}$"
 )
 HUMAN_CONNECTION_FAILED_EVENT_REGEX = re.compile(
-  r"^socket channel NOT created \((?P<reason>.*)\): (?P<host>.+):(?P<port>\d+)$"
+  rf"^socket channel NOT created \({REASON_REGEX}\): {HOST_REGEX}:{PORT_REGEX}$"
 )
 HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)', ip (?P<host>.+):(?P<port>\d+), (?P<callsign>.*), is complete created$"
+  rf"^socket channel '{CHANNEL_NO_REGEX}', ip {HOST_REGEX}:{PORT_REGEX}, {CALLSIGN_REGEX}, is complete created$"
 )
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
-  r"^socketConnection with (?P<host>.+):(?P<port>\d+) on channel (?P<channel_no>\d+) lost.  Reason: (?P<reason>.*)$"
+  rf"^socketConnection with {HOST_REGEX}:{PORT_REGEX} on channel {CHANNEL_NO_REGEX} lost.  Reason: {REASON_REGEX}$"
 )
 
 HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX     = " has connected"
