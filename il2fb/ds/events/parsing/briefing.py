@@ -19,7 +19,6 @@ from .text import strip_spaces
 from .regex import CALLSIGN_REGEX
 from .regex import POS_REGEX
 
-
 from ._utils import export
 
 

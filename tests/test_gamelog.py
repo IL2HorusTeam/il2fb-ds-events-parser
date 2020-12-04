@@ -14,6 +14,7 @@ from il2fb.ds.events.definitions.mission import MissionEndedEvent
 
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingEvent
 from il2fb.ds.events.definitions.smokes import HumanAircraftToggledWingtipSmokesEvent
+from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
 from il2fb.ds.events.parsing.gamelog import GamelogLineParser
@@ -75,6 +76,11 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (HumanAircraftToggledWingtipSmokesEvent, "[3:50:25 PM]  The User :P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"),
       (HumanAircraftToggledWingtipSmokesEvent, "[3:50:25 PM]  :P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"),
       (HumanAircraftToggledWingtipSmokesEvent, "[3:50:25 PM] :P-39D2 turned wingtip smokes off at 91600.414 73098.805 661.9586"),
+
+      (HumanAircraftSpawnedEvent,              "[3:50:25 PM] TheUser:Pe-2series84 loaded weapons '2fab500' fuel 50%"),
+      (HumanAircraftSpawnedEvent,              "[3:50:25 PM]  The User :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
+      (HumanAircraftSpawnedEvent,              "[3:50:25 PM]  :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
+      (HumanAircraftSpawnedEvent,              "[3:50:25 PM] :Pe-2series84 loaded weapons '2fab500' fuel 50%"),
     ]
 
     for cls, line in items:
