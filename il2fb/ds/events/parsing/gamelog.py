@@ -28,7 +28,7 @@ from .seats import HumanOccupiedCrewMemberSeatLineParser
 from .smokes import HumanAircraftToggledWingtipSmokesLineParser
 
 from .spawning import HumanAircraftSpawnedLineParser
-from .spawning import AircraftDespawnedLineParser
+from .spawning import ActorDespawnedLineParser
 
 from .takeoff import HumanAircraftTookOffLineParser
 
@@ -50,7 +50,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   MissionEndedLineParser,
   HumanToggledRecordingLineParser,
   HumanAircraftToggledLandingLightsEventLineParser,
-  AircraftDespawnedLineParser,
+  ActorDespawnedLineParser,
 )
 
 

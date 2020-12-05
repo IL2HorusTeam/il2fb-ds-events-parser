@@ -8,7 +8,7 @@ from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import UnknownActorDespawnedEvent
 
 from il2fb.ds.events.parsing.spawning import HumanAircraftSpawnedLineParser
-from il2fb.ds.events.parsing.spawning import AircraftDespawnedLineParser
+from il2fb.ds.events.parsing.spawning import ActorDespawnedLineParser
 
 
 class HumanAircraftSpawnedLineParserTestCase(unittest.TestCase):
@@ -59,10 +59,10 @@ class HumanAircraftSpawnedLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.actor.callsign, "")
 
 
-class AircraftDespawnedLineParserTestCase(unittest.TestCase):
+class ActorDespawnedLineParserTestCase(unittest.TestCase):
 
   def setUp(self):
-    self.parser = AircraftDespawnedLineParser()
+    self.parser = ActorDespawnedLineParser()
 
   def test_parse_line_no_match(self):
     timestamp = None

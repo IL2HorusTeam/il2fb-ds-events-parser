@@ -85,7 +85,7 @@ class HumanAircraftSpawnedLineParser(LineWithTimestampParser):
 
 
 @export
-class AircraftDespawnedLineParser(LineWithTimestampParser):
+class ActorDespawnedLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about despawned aircrafts.
 
@@ -144,7 +144,7 @@ class AircraftDespawnedLineParser(LineWithTimestampParser):
     timestamp: datetime.datetime,
     pos: Point3D,
     actor: str,
-  ) ->  Optional[DespawningEvent]:
+  ) -> Optional[DespawningEvent]:
     """Allows customization via overrides"""
     return UnknownActorDespawnedEvent(UnknownActorDespawnedInfo(
       timestamp=timestamp,
