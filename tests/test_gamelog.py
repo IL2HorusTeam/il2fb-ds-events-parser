@@ -6,6 +6,9 @@ from il2fb.ds.events.definitions.briefing import HumanSelectedAirfieldEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionEstablishedLightEvent
 from il2fb.ds.events.definitions.connection import HumanConnectionLostLightEvent
 
+from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
+from il2fb.ds.events.definitions.landing import AIAircraftLandedEvent
+
 from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLightsEvent
 
 from il2fb.ds.events.definitions.mission import MissionLoadedEvent
@@ -108,6 +111,15 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM]  The User :TB-7_M40F(2) seat occupied by  The User  at 91600.414 73098.805 661.9586"),
       (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM]  :TB-7_M40F(2) seat occupied by   at 91600.414 73098.805 661.9586"),
       (HumanOccupiedCrewMemberSeatEvent,       "[3:50:25 PM] :TB-7_M40F(2) seat occupied by  at 91600.414 73098.805 661.9586"),
+
+      (HumanAircraftLandedEvent,               "[3:50:25 PM] TheUser:TB-7_M40F landed at 145663.6 62799.64"),
+      (HumanAircraftLandedEvent,               "[3:50:25 PM] TheUser:TB-7_M40F landed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftLandedEvent,               "[3:50:25 PM]  The User :TB-7_M40F landed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftLandedEvent,               "[3:50:25 PM]  :TB-7_M40F landed at 145663.6 62799.64 83.96088"),
+      (HumanAircraftLandedEvent,               "[3:50:25 PM] :TB-7_M40F landed at 145663.6 62799.64 83.96088"),
+
+      (AIAircraftLandedEvent,                  "[3:50:25 PM] r01200 landed at 145663.6 62799.64"),
+      (AIAircraftLandedEvent,                  "[3:50:25 PM] r01200 landed at 145663.6 62799.64 83.96088"),
     ]
 
     for cls, line in items:

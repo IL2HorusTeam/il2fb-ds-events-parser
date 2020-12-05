@@ -50,7 +50,7 @@ class HumanAircraftSpawnedLineParserTestCase(unittest.TestCase):
     self.assertIsInstance(evt, HumanAircraftSpawnedEvent)
     self.assertEqual(evt.data.actor.callsign, "")
 
-    line = " :Pe-2series84 loaded weapons '2fab500' fuel 50%"
+    line = ":Pe-2series84 loaded weapons '2fab500' fuel 50%"
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanAircraftSpawnedEvent)
@@ -99,7 +99,7 @@ class AircraftDespawnedLineParserTestCase(unittest.TestCase):
     self.assertIsInstance(evt, HumanAircraftDespawnedEvent)
     self.assertEqual(evt.data.actor.callsign, "")
 
-    line = " :TB-7_M40F removed at 145663.6 62799.64 83.96088"
+    line = ":TB-7_M40F removed at 145663.6 62799.64 83.96088"
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, HumanAircraftDespawnedEvent)

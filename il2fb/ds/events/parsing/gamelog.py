@@ -16,6 +16,7 @@ from .briefing import HumanSelectedAirfieldLineParser
 from .connection import HumanConnectionEstablishedLightLineParser
 from .connection import HumanConnectionLostLightLineParser
 
+from .landing import AircraftLandedLineParser
 from .lights import HumanAircraftToggledLandingLightsEventLineParser
 
 from .mission import MissionLoadedLineParser
@@ -41,6 +42,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanReturnedToBriefingLineParser,
   HumanSelectedAirfieldLineParser,
   HumanAircraftTookOffLineParser,
+  AircraftLandedLineParser,
   HumanConnectionEstablishedLightLineParser,
   HumanConnectionLostLightLineParser,
   MissionLoadedLineParser,

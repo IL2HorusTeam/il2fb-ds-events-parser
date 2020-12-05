@@ -26,7 +26,7 @@ HUMAN_AIRCRAFT_TOOK_OFF_REGEX = re.compile(
 @export
 class HumanAircraftTookOffLineParser(LineWithTimestampParser):
   """
-  Parses gamelog messages about wingtip smokes events.
+  Parses gamelog messages about take-off events.
 
   Examples of input lines:
 
