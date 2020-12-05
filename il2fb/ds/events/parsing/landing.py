@@ -36,7 +36,7 @@ ACTOR_LANDED_REGEX = re.compile(
 
 
 @export
-class AircraftLandedLineParser(LineWithTimestampParser):
+class ActorLandedLineParser(LineWithTimestampParser):
   """
   Parses gamelog messages about landing events.
 
@@ -95,7 +95,7 @@ class AircraftLandedLineParser(LineWithTimestampParser):
     timestamp: datetime.datetime,
     pos: Point3D,
     actor: str,
-  ) ->  Optional[LandingEvent]:
+  ) -> Optional[LandingEvent]:
     """Allows customization via overrides"""
     return UnknownActorLandedEvent(UnknownActorLandedInfo(
       timestamp=timestamp,

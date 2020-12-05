@@ -5,13 +5,13 @@ from il2fb.ds.events.definitions.landing import AIAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import UnknownActorLandedEvent
 
-from il2fb.ds.events.parsing.landing import AircraftLandedLineParser
+from il2fb.ds.events.parsing.landing import ActorLandedLineParser
 
 
-class AircraftLandedLineParserTestCase(unittest.TestCase):
+class ActorLandedLineParserTestCase(unittest.TestCase):
 
   def setUp(self):
-    self.parser = AircraftLandedLineParser()
+    self.parser = ActorLandedLineParser()
 
   def test_parse_line_no_match(self):
     timestamp = None
