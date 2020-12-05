@@ -2,11 +2,13 @@ import datetime
 import re
 
 from typing import Optional
-from typing import Union
 
 from il2fb.commons.actors import HumanAircraftActor
+from il2fb.commons.actors import UnknownActor
 
 from il2fb.commons.spatial import Point3D
+
+from il2fb.ds.events.definitions.spawning import DespawningEvent
 
 from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedInfo
@@ -16,6 +18,9 @@ from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedInfo
 
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedInfo
+
+from il2fb.ds.events.definitions.spawning import UnknownActorDespawnedEvent
+from il2fb.ds.events.definitions.spawning import UnknownActorDespawnedInfo
 
 from .actors import maybe_AIAircraftActor_from_id
 from .base import LineWithTimestampParser
@@ -95,10 +100,7 @@ class AircraftDespawnedLineParser(LineWithTimestampParser):
     "r01200 removed at 145663.6 62799.64 83.96088"
 
   """
-  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[Union[
-    AIAircraftDespawnedEvent,
-    HumanAircraftDespawnedEvent,
-  ]]:
+  def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[DespawningEvent]:
     match = ACTOR_DESPAWNED_REGEX.match(line)
     if not match:
       return
@@ -123,10 +125,29 @@ class AircraftDespawnedLineParser(LineWithTimestampParser):
         pos=pos,
       ))
 
-    actor = maybe_AIAircraftActor_from_id(actor)
-    if actor:
+    ai_aircraft = maybe_AIAircraftActor_from_id(actor)
+    if ai_aircraft:
       return AIAircraftDespawnedEvent(AIAircraftDespawnedInfo(
         timestamp=timestamp,
-        actor=actor,
+        actor=ai_aircraft,
         pos=pos,
       ))
+
+    return self._parse_unknown_actor(
+      timestamp=timestamp,
+      actor=actor,
+      pos=pos,
+    )
+
+  def _parse_unknown_actor(
+    self,
+    timestamp: datetime.datetime,
+    pos: Point3D,
+    actor: str,
+  ) ->  Optional[DespawningEvent]:
+    """Allows customization via overrides"""
+    return UnknownActorDespawnedEvent(UnknownActorDespawnedInfo(
+      timestamp=timestamp,
+      actor=UnknownActor(id=actor),
+      pos=pos,
+    ))
