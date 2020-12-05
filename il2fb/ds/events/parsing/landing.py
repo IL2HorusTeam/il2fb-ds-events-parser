@@ -19,10 +19,10 @@ from il2fb.ds.events.definitions.landing import HumanAircraftLandedInfo
 from il2fb.ds.events.definitions.landing import UnknownActorLandedEvent
 from il2fb.ds.events.definitions.landing import UnknownActorLandedInfo
 
+from .actors import maybe_HumanAircraftActor_from_id
 from .actors import maybe_AIAircraftActor_from_id
+
 from .base import LineWithTimestampParser
-from .literals import HUMAN_AIRCRAFT_DELIM
-from .text import strip_spaces
 
 from .regex import ACTOR_REGEX
 from .regex import POS_REGEX
@@ -42,13 +42,13 @@ class ActorLandedLineParser(LineWithTimestampParser):
 
   Examples of input lines:
 
-    "TheUser:TB-7_M40F in flight at 145663.6 62799.64"
-    "TheUser:TB-7_M40F in flight at 145663.6 62799.64 83.96088"
-    " The User :TB-7_M40F in flight at 145663.6 62799.64 83.96088"
-    " :TB-7_M40F in flight at 145663.6 62799.64 83.96088"
-    ":TB-7_M40F in flight at 145663.6 62799.64 83.96088"
+    "TheUser:TB-7_M40F landed at 145663.6 62799.64"
+    "TheUser:TB-7_M40F landed at 145663.6 62799.64 83.96088"
+    " The User :TB-7_M40F landed at 145663.6 62799.64 83.96088"
+    " :TB-7_M40F landed at 145663.6 62799.64 83.96088"
+    ":TB-7_M40F landed at 145663.6 62799.64 83.96088"
     "r01001 landed at 21843.232 195704.28"
-    "r01001 landed at 21843.232 195704.28  83.96088"
+    "r01001 landed at 21843.232 195704.28 83.96088"
 
   """
   def parse_line(self, timestamp: datetime.datetime, line: str) -> Optional[LandingEvent]:
@@ -62,21 +62,17 @@ class ActorLandedLineParser(LineWithTimestampParser):
       z=float(match.group('z') or 0),
     )
 
-    actor = match.group('actor')
-    if HUMAN_AIRCRAFT_DELIM in actor:
-      callsign, aircraft = actor.rsplit(HUMAN_AIRCRAFT_DELIM, 1)
-      callsign = strip_spaces(callsign)
-      actor = HumanAircraftActor(
-        callsign=callsign,
-        aircraft=aircraft,
-      )
+    actor_id = match.group('actor')
+
+    human_aircraft_actor = maybe_HumanAircraftActor_from_id(actor_id)
+    if human_aircraft_actor:
       return HumanAircraftLandedEvent(HumanAircraftLandedInfo(
         timestamp=timestamp,
-        actor=actor,
+        actor=human_aircraft_actor,
         pos=pos,
       ))
 
-    ai_aircraft = maybe_AIAircraftActor_from_id(actor)
+    ai_aircraft = maybe_AIAircraftActor_from_id(actor_id)
     if ai_aircraft:
       return AIAircraftLandedEvent(AIAircraftLandedInfo(
         timestamp=timestamp,
@@ -84,21 +80,21 @@ class ActorLandedLineParser(LineWithTimestampParser):
         pos=pos,
       ))
 
-    return self._parse_unknown_actor(
+    return self._parse_unknown_actor_event(
       timestamp=timestamp,
-      actor=actor,
+      actor_id=actor_id,
       pos=pos,
     )
 
-  def _parse_unknown_actor(
+  def _parse_unknown_actor_event(
     self,
     timestamp: datetime.datetime,
     pos: Point3D,
-    actor: str,
+    actor_id: str,
   ) -> Optional[LandingEvent]:
     """Allows customization via overrides"""
     return UnknownActorLandedEvent(UnknownActorLandedInfo(
       timestamp=timestamp,
-      actor=UnknownActor(id=actor),
+      actor=UnknownActor(id=actor_id),
       pos=pos,
     ))
