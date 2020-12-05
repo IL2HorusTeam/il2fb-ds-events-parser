@@ -17,7 +17,7 @@ from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedInfo
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedInfo
 
-from .actors import AIAircraftActor_from_id
+from .actors import maybe_AIAircraftActor_from_id
 from .base import LineWithTimestampParser
 from .text import strip_spaces
 
@@ -122,9 +122,11 @@ class AircraftDespawnedLineParser(LineWithTimestampParser):
         actor=actor,
         pos=pos,
       ))
-    else:
+
+    actor = maybe_AIAircraftActor_from_id(actor)
+    if actor:
       return AIAircraftDespawnedEvent(AIAircraftDespawnedInfo(
         timestamp=timestamp,
-        actor=AIAircraftActor_from_id(actor),
+        actor=actor,
         pos=pos,
       ))

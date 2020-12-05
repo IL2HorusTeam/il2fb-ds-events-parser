@@ -15,7 +15,7 @@ from il2fb.ds.events.definitions.landing import AIAircraftLandedInfo
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedInfo
 
-from .actors import AIAircraftActor_from_id
+from .actors import maybe_AIAircraftActor_from_id
 from .base import LineWithTimestampParser
 from .literals import HUMAN_AIRCRAFT_DELIM
 from .text import strip_spaces
@@ -74,9 +74,11 @@ class AircraftLandedLineParser(LineWithTimestampParser):
         actor=actor,
         pos=pos,
       ))
-    else:
+
+    actor = maybe_AIAircraftActor_from_id(actor)
+    if actor:
       return AIAircraftLandedEvent(AIAircraftLandedInfo(
         timestamp=timestamp,
-        actor=AIAircraftActor_from_id(actor),
+        actor=actor,
         pos=pos,
       ))
