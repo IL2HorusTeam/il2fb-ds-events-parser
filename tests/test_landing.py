@@ -3,7 +3,6 @@ import unittest
 
 from il2fb.ds.events.definitions.landing import AIAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
-from il2fb.ds.events.definitions.landing import UnknownActorLandedEvent
 
 from il2fb.ds.events.parsing.landing import ActorLandedLineParser
 
@@ -62,18 +61,8 @@ class ActorLandedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, AIAircraftLandedEvent)
-    self.assertEqual(evt.data.actor.regiment_id, "r01")
-    self.assertEqual(evt.data.actor.squadron_id, 2)
-    self.assertEqual(evt.data.actor.flight_id, 0)
+    self.assertEqual(evt.data.actor.id, "r0120")
     self.assertEqual(evt.data.actor.flight_index, 0)
-
-  def test_parse_line_unknown_actor(self):
-    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
-    line = "foo landed at 145663.6 62799.64 83.96088"
-    evt = self.parser.parse_line(timestamp, line)
-
-    self.assertIsInstance(evt, UnknownActorLandedEvent)
-    self.assertEqual(evt.data.actor.id, "foo")
 
   def test_parse_line_no_z_coord(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)

@@ -55,7 +55,7 @@ class HumanOccupiedCrewMemberSeatLineParser(LineWithTimestampParser):
     target = HumanAircraftCrewMemberActor(
       callsign=target_callsign,
       aircraft=match.group('target_aircraft'),
-      crew_index=int(match.group('target_crew_index')),
+      member_index=int(match.group('target_member_index')),
     )
 
     pos = Point3D(

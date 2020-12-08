@@ -28,7 +28,7 @@ class HumanOccupiedCrewMemberSeatLineParserTestCase(unittest.TestCase):
     self.assertEqual(evt.data.actor.callsign, "TheUser")
     self.assertEqual(evt.data.target.callsign, "TheUser")
     self.assertEqual(evt.data.target.aircraft, "TB-7_M40F")
-    self.assertEqual(evt.data.target.crew_index, 2)
+    self.assertEqual(evt.data.target.member_index, 2)
     self.assertEqual(evt.data.pos.x, float("91600.414"))
     self.assertEqual(evt.data.pos.y, float("73098.805"))
     self.assertEqual(evt.data.pos.z, float("661.9586"))

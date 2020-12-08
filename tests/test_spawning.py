@@ -5,7 +5,6 @@ from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
-from il2fb.ds.events.definitions.spawning import UnknownActorDespawnedEvent
 
 from il2fb.ds.events.parsing.spawning import HumanAircraftSpawnedLineParser
 from il2fb.ds.events.parsing.spawning import ActorDespawnedLineParser
@@ -113,18 +112,8 @@ class ActorDespawnedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, AIAircraftDespawnedEvent)
-    self.assertEqual(evt.data.actor.regiment_id, "r01")
-    self.assertEqual(evt.data.actor.squadron_id, 2)
-    self.assertEqual(evt.data.actor.flight_id, 0)
+    self.assertEqual(evt.data.actor.id, "r0120")
     self.assertEqual(evt.data.actor.flight_index, 0)
-
-  def test_parse_line_ai_aircraft(self):
-    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
-    line = "foo removed at 145663.6 62799.64 83.96088"
-    evt = self.parser.parse_line(timestamp, line)
-
-    self.assertIsInstance(evt, UnknownActorDespawnedEvent)
-    self.assertEqual(evt.data.actor.id, "foo")
 
   def test_parse_line_no_z_coord(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)

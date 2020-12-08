@@ -3,13 +3,6 @@ import re
 
 from typing import Optional
 
-from il2fb.commons.actors import AIAircraftActor
-from il2fb.commons.actors import HumanAircraftActor
-from il2fb.commons.actors import MovingUnitActor
-from il2fb.commons.actors import MovingUnitMemberActor
-from il2fb.commons.actors import StationaryUnitActor
-from il2fb.commons.actors import UnknownActor
-
 from il2fb.commons.spatial import Point3D
 
 from il2fb.ds.events.definitions.crashing import CrashingEvent
@@ -28,9 +21,6 @@ from il2fb.ds.events.definitions.crashing import MovingUnitMemberCrashedInfo
 
 from il2fb.ds.events.definitions.crashing import StationaryUnitCrashedEvent
 from il2fb.ds.events.definitions.crashing import StationaryUnitCrashedInfo
-
-from il2fb.ds.events.definitions.crashing import UnknownActorCrashedEvent
-from il2fb.ds.events.definitions.crashing import UnknownActorCrashedInfo
 
 from .actors import maybe_AIAircraftActor_from_id
 from .actors import maybe_HumanAircraftActor_from_id
@@ -86,61 +76,37 @@ class ActorCrashedLineParser(LineWithTimestampParser):
 
     actor_id = match.group('actor')
 
-    human_aircraft_actor = maybe_HumanAircraftActor_from_id(actor_id)
-    if human_aircraft_actor:
+    if (actor := maybe_HumanAircraftActor_from_id(actor_id)):
       return HumanAircraftCrashedEvent(HumanAircraftCrashedInfo(
         timestamp=timestamp,
-        actor=human_aircraft_actor,
+        actor=actor,
         pos=pos,
       ))
 
-    stationary_unit = maybe_StationaryUnitActor_from_id(actor_id)
-    if stationary_unit:
+    if (actor := maybe_StationaryUnitActor_from_id(actor_id)):
       return StationaryUnitCrashedEvent(StationaryUnitCrashedInfo(
         timestamp=timestamp,
-        actor=stationary_unit,
+        actor=actor,
         pos=pos,
       ))
 
-    moving_unit = maybe_MovingUnitActor_from_id(actor_id)
-    if moving_unit:
+    if (actor := maybe_MovingUnitActor_from_id(actor_id)):
       return MovingUnitCrashedEvent(MovingUnitCrashedInfo(
         timestamp=timestamp,
-        actor=moving_unit,
+        actor=actor,
         pos=pos,
       ))
 
-    moving_unit_member = maybe_MovingUnitMemberActor_from_id(actor_id)
-    if moving_unit_member:
+    if (actor := maybe_MovingUnitMemberActor_from_id(actor_id)):
       return MovingUnitMemberCrashedEvent(MovingUnitMemberCrashedInfo(
         timestamp=timestamp,
-        actor=moving_unit_member,
+        actor=actor,
         pos=pos,
       ))
 
-    ai_aircraft = maybe_AIAircraftActor_from_id(actor_id)
-    if ai_aircraft:
+    if (actor := maybe_AIAircraftActor_from_id(actor_id)):
       return AIAircraftCrashedEvent(AIAircraftCrashedInfo(
         timestamp=timestamp,
-        actor=ai_aircraft,
+        actor=actor,
         pos=pos,
       ))
-
-    return self._parse_unknown_actor_event(
-      timestamp=timestamp,
-      actor_id=actor_id,
-      pos=pos,
-    )
-
-  def _parse_unknown_actor_event(
-    self,
-    timestamp: datetime.datetime,
-    pos: Point3D,
-    actor_id: str,
-  ) -> Optional[CrashingEvent]:
-    """Allows customization via overrides"""
-    return UnknownActorCrashedEvent(UnknownActorCrashedInfo(
-      timestamp=timestamp,
-      actor=UnknownActor(id=actor_id),
-      pos=pos,
-    ))

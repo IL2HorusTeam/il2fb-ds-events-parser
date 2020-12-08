@@ -4,7 +4,6 @@ import re
 from typing import Optional
 
 from il2fb.commons.actors import HumanAircraftActor
-from il2fb.commons.actors import UnknownActor
 
 from il2fb.commons.spatial import Point3D
 
@@ -15,9 +14,6 @@ from il2fb.ds.events.definitions.landing import AIAircraftLandedInfo
 
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedInfo
-
-from il2fb.ds.events.definitions.landing import UnknownActorLandedEvent
-from il2fb.ds.events.definitions.landing import UnknownActorLandedInfo
 
 from .actors import maybe_HumanAircraftActor_from_id
 from .actors import maybe_AIAircraftActor_from_id
@@ -64,37 +60,16 @@ class ActorLandedLineParser(LineWithTimestampParser):
 
     actor_id = match.group('actor')
 
-    human_aircraft_actor = maybe_HumanAircraftActor_from_id(actor_id)
-    if human_aircraft_actor:
+    if (actor := maybe_HumanAircraftActor_from_id(actor_id)):
       return HumanAircraftLandedEvent(HumanAircraftLandedInfo(
         timestamp=timestamp,
-        actor=human_aircraft_actor,
+        actor=actor,
         pos=pos,
       ))
 
-    ai_aircraft = maybe_AIAircraftActor_from_id(actor_id)
-    if ai_aircraft:
+    if (actor := maybe_AIAircraftActor_from_id(actor_id)):
       return AIAircraftLandedEvent(AIAircraftLandedInfo(
         timestamp=timestamp,
-        actor=ai_aircraft,
+        actor=actor,
         pos=pos,
       ))
-
-    return self._parse_unknown_actor_event(
-      timestamp=timestamp,
-      actor_id=actor_id,
-      pos=pos,
-    )
-
-  def _parse_unknown_actor_event(
-    self,
-    timestamp: datetime.datetime,
-    pos: Point3D,
-    actor_id: str,
-  ) -> Optional[LandingEvent]:
-    """Allows customization via overrides"""
-    return UnknownActorLandedEvent(UnknownActorLandedInfo(
-      timestamp=timestamp,
-      actor=UnknownActor(id=actor_id),
-      pos=pos,
-    ))

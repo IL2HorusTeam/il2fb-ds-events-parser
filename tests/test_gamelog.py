@@ -11,11 +11,9 @@ from il2fb.ds.events.definitions.crashing import HumanAircraftCrashedEvent
 from il2fb.ds.events.definitions.crashing import MovingUnitCrashedEvent
 from il2fb.ds.events.definitions.crashing import MovingUnitMemberCrashedEvent
 from il2fb.ds.events.definitions.crashing import StationaryUnitCrashedEvent
-from il2fb.ds.events.definitions.crashing import UnknownActorCrashedEvent
 
 from il2fb.ds.events.definitions.landing import HumanAircraftLandedEvent
 from il2fb.ds.events.definitions.landing import AIAircraftLandedEvent
-from il2fb.ds.events.definitions.landing import UnknownActorLandedEvent
 
 from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLightsEvent
 
@@ -31,7 +29,6 @@ from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
 
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
-from il2fb.ds.events.definitions.spawning import UnknownActorDespawnedEvent
 
 from il2fb.ds.events.definitions.takeoff import HumanAircraftTookOffEvent
 
@@ -110,9 +107,6 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64"),
       (AIAircraftDespawnedEvent,               "[3:50:25 PM] r01200 removed at 145663.6 62799.64 83.96088"),
 
-      (UnknownActorDespawnedEvent,             "[3:50:25 PM] foo removed at 145663.6 62799.64"),
-      (UnknownActorDespawnedEvent,             "[3:50:25 PM] foo removed at 145663.6 62799.64 83.96088"),
-
       (HumanAircraftTookOffEvent,              "[3:50:25 PM] TheUser:P-39D2 in flight at 91600.414 73098.805"),
       (HumanAircraftTookOffEvent,              "[3:50:25 PM] TheUser:P-39D2 in flight at 91600.414 73098.805 661.9586"),
       (HumanAircraftTookOffEvent,              "[3:50:25 PM]  The User :P-39D2 in flight at 91600.414 73098.805 661.9586"),
@@ -134,9 +128,6 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (AIAircraftLandedEvent,                  "[3:50:25 PM] r01200 landed at 145663.6 62799.64"),
       (AIAircraftLandedEvent,                  "[3:50:25 PM] r01200 landed at 145663.6 62799.64 83.96088"),
 
-      (UnknownActorLandedEvent,                "[3:50:25 PM] foo landed at 145663.6 62799.64"),
-      (UnknownActorLandedEvent,                "[3:50:25 PM] foo landed at 145663.6 62799.64 83.96088"),
-
       (HumanAircraftCrashedEvent,              "[3:50:25 PM] TheUser:TB-7_M40F crashed at 145663.6 62799.64"),
       (HumanAircraftCrashedEvent,              "[3:50:25 PM] TheUser:TB-7_M40F crashed at 145663.6 62799.64 83.96088"),
       (HumanAircraftCrashedEvent,              "[3:50:25 PM]  The User :TB-7_M40F crashed at 145663.6 62799.64 83.96088"),
@@ -154,9 +145,6 @@ class GamelogLineParserTestCase(unittest.TestCase):
 
       (MovingUnitMemberCrashedEvent,           "[3:50:25 PM] 0_Chief1 crashed at 145663.6 62799.64"),
       (MovingUnitMemberCrashedEvent,           "[3:50:25 PM] 0_Chief1 crashed at 145663.6 62799.64 83.96088"),
-
-      (UnknownActorCrashedEvent,               "[3:50:25 PM] foo crashed at 145663.6 62799.64"),
-      (UnknownActorCrashedEvent,               "[3:50:25 PM] foo crashed at 145663.6 62799.64 83.96088"),
     ]
 
     for cls, line in items:

@@ -6,7 +6,6 @@ from il2fb.ds.events.definitions.crashing import HumanAircraftCrashedEvent
 from il2fb.ds.events.definitions.crashing import MovingUnitCrashedEvent
 from il2fb.ds.events.definitions.crashing import MovingUnitMemberCrashedEvent
 from il2fb.ds.events.definitions.crashing import StationaryUnitCrashedEvent
-from il2fb.ds.events.definitions.crashing import UnknownActorCrashedEvent
 
 from il2fb.ds.events.parsing.crashing import ActorCrashedLineParser
 
@@ -65,9 +64,7 @@ class ActorCrashedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, AIAircraftCrashedEvent)
-    self.assertEqual(evt.data.actor.regiment_id, "r01")
-    self.assertEqual(evt.data.actor.squadron_id, 2)
-    self.assertEqual(evt.data.actor.flight_id, 0)
+    self.assertEqual(evt.data.actor.id, "r0120")
     self.assertEqual(evt.data.actor.flight_index, 0)
 
   def test_parse_line_stationary_unit(self):
@@ -76,7 +73,7 @@ class ActorCrashedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, StationaryUnitCrashedEvent)
-    self.assertEqual(evt.data.actor.id, 0)
+    self.assertEqual(evt.data.actor.id, '0_Static')
 
   def test_parse_line_moving_unit(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
@@ -84,7 +81,7 @@ class ActorCrashedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, MovingUnitCrashedEvent)
-    self.assertEqual(evt.data.actor.id, 0)
+    self.assertEqual(evt.data.actor.id, '0_Chief')
 
   def test_parse_line_moving_unit_member(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
@@ -92,16 +89,8 @@ class ActorCrashedLineParserTestCase(unittest.TestCase):
     evt = self.parser.parse_line(timestamp, line)
 
     self.assertIsInstance(evt, MovingUnitMemberCrashedEvent)
-    self.assertEqual(evt.data.actor.id, 0)
+    self.assertEqual(evt.data.actor.id, '0_Chief')
     self.assertEqual(evt.data.actor.member_index, 1)
-
-  def test_parse_line_unknown_actor(self):
-    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
-    line = "foo crashed at 145663.6 62799.64 83.96088"
-    evt = self.parser.parse_line(timestamp, line)
-
-    self.assertIsInstance(evt, UnknownActorCrashedEvent)
-    self.assertEqual(evt.data.actor.id, "foo")
 
   def test_parse_line_no_z_coord(self):
     timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
