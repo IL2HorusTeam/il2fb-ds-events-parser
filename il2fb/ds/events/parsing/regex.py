@@ -6,8 +6,8 @@ from .literals import SWITCH_STATE_OFF_LITERAL
 
 ACTOR_REGEX        = r"(?P<actor>.+)"
 TARGET_REGEX       = r"(?P<target>.+)"
-ATTACKER_REGEX     = r"(?P<attacker>.+)"
-ASSISTANT_REGEX    = r"(?P<assistant>.+)"
+ATTACKER_REGEX     = r"(?P<attacker>.*)"
+ASSISTANT_REGEX    = r"(?P<assistant>.*)"
 CHANNEL_NO_REGEX   = r"(?P<channel_no>\d+)"
 HOST_REGEX         = r"(?P<host>.+)"
 PORT_REGEX         = r"(?P<port>\d+)"
