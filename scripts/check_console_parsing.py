@@ -122,7 +122,7 @@ def run(input_stream) -> None:
 
   for line in input_stream:
     lines_total += 1
-    line = line.rstrip()
+    line = line.rstrip("\n\r")
 
     for parser in parsers:
       evt = parser.parse_line(line)

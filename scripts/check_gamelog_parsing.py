@@ -123,7 +123,7 @@ def run(input_stream) -> None:
 
   for line in input_stream:
     lines_total += 1
-    line = line.rstrip()
+    line = line.rstrip("\n\r")
 
     try:
       timestamp, line = split_timestamp_or_fail(line)
