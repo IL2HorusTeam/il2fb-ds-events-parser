@@ -11,7 +11,7 @@ from ._utils import export
 
 
 CHEATING_REGEX = re.compile(
-  r"^socket channel '(?P<channel_no>\d+)' Cheater was detected! Reason=(?P<cheat_code>-?\d+): '(?P<cheat_details>.+)'$"
+  r"^socket channel '(?P<channel_no>\d+)' Cheater was detected! Reason=(?P<cheat_code>-?\d+): '(?P<cheat_details>.+)'\s*$"
 )
 
 

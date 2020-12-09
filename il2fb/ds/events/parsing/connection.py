@@ -49,7 +49,7 @@ HUMAN_CONNECTION_ESTABLISHED_EVENT_REGEX = re.compile(
   rf"^socket channel '{CHANNEL_NO_REGEX}', ip {HOST_REGEX}:{PORT_REGEX}, {CALLSIGN_REGEX}, is complete created$"
 )
 HUMAN_CONNECTION_LOST_EVENT_REGEX = re.compile(
-  rf"^socketConnection with {HOST_REGEX}:{PORT_REGEX} on channel {CHANNEL_NO_REGEX} lost.  Reason: {REASON_REGEX}$"
+  rf"^socketConnection with {HOST_REGEX}:{PORT_REGEX} on channel {CHANNEL_NO_REGEX} lost.  Reason:\s*{REASON_REGEX}$"
 )
 
 HUMAN_CONNECTION_ESTABLISHED_LIGHT_SUFFIX     = " has connected"
