@@ -20,6 +20,7 @@ from il2fb.ds.events.definitions.lights import HumanAircraftToggledLandingLights
 from il2fb.ds.events.definitions.mission import MissionLoadedEvent
 from il2fb.ds.events.definitions.mission import MissionStartedEvent
 from il2fb.ds.events.definitions.mission import MissionEndedEvent
+from il2fb.ds.events.definitions.mission import MissionWonEvent
 
 from il2fb.ds.events.definitions.recording import HumanToggledRecordingEvent
 from il2fb.ds.events.definitions.seats import HumanOccupiedCrewMemberSeatEvent
@@ -87,6 +88,10 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (
         MissionEndedEvent,
         "[3:46:16 PM] Mission END",
+      ),
+      (
+        MissionWonEvent,
+        "[Aug 3, 2020 3:46:08 PM] Mission: RED WON",
       ),
       (
         HumanConnectionEstablishedLightEvent,

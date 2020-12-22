@@ -3,13 +3,17 @@ import unittest
 
 from pathlib import Path
 
+from il2fb.commons.belligerents import BELLIGERENTS
+
 from il2fb.ds.events.definitions.mission import MissionLoadedEvent
 from il2fb.ds.events.definitions.mission import MissionStartedEvent
 from il2fb.ds.events.definitions.mission import MissionEndedEvent
+from il2fb.ds.events.definitions.mission import MissionWonEvent
 
 from il2fb.ds.events.parsing.mission import MissionLoadedLineParser
 from il2fb.ds.events.parsing.mission import MissionStartedLineParser
 from il2fb.ds.events.parsing.mission import MissionEndedLineParser
+from il2fb.ds.events.parsing.mission import MissionWonLineParser
 
 
 class MissionLoadedLineParserTestCase(unittest.TestCase):
@@ -75,3 +79,25 @@ class MissionEndedLineParserTestCase(unittest.TestCase):
 
     self.assertIsInstance(evt, MissionEndedEvent)
     self.assertEqual(evt.data.timestamp, timestamp)
+
+
+class MissionWonLineParserTestCase(unittest.TestCase):
+
+  def setUp(self):
+    self.parser = MissionWonLineParser()
+
+  def test_parse_line_no_match(self):
+    timestamp = None
+    line = "foo"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsNone(evt)
+
+  def test_parse_line(self):
+    timestamp = datetime.datetime(2020, 12, 31, 15, 46, 8)
+    line = "Mission: RED WON"
+    evt = self.parser.parse_line(timestamp, line)
+
+    self.assertIsInstance(evt, MissionWonEvent)
+    self.assertEqual(evt.data.timestamp, timestamp)
+    self.assertEqual(evt.data.belligerent, BELLIGERENTS.RED)

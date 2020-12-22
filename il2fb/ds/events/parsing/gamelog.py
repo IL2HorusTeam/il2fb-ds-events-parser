@@ -24,6 +24,7 @@ from .lights import HumanAircraftToggledLandingLightsEventLineParser
 from .mission import MissionLoadedLineParser
 from .mission import MissionStartedLineParser
 from .mission import MissionEndedLineParser
+from .mission import MissionWonLineParser
 
 from .recording import HumanToggledRecordingLineParser
 from .seats import HumanOccupiedCrewMemberSeatLineParser
@@ -56,6 +57,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanToggledRecordingLineParser,
   HumanAircraftToggledLandingLightsEventLineParser,
   ActorDespawnedLineParser,
+  MissionWonLineParser,
 )
 
 
