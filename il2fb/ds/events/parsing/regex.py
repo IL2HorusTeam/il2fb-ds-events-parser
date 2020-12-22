@@ -13,6 +13,7 @@ HOST_REGEX         = r"(?P<host>.+)"
 PORT_REGEX         = r"(?P<port>\d+)"
 POS_REGEX          = r"(?P<x>-?\d+\.\d+) (?P<y>-?\d+\.\d+)( (?P<z>-?\d+\.\d+))?"
 REASON_REGEX       = r"(?P<reason>.*)"
+BELLIGERENT_REGEX  = r"(?P<belligerent>.+)"
 SWITCH_STATE_REGEX = rf"(?P<state>{SWITCH_STATE_ON_LITERAL}|{SWITCH_STATE_OFF_LITERAL})"
 
 AIRCRAFT_REGEX     = r"(?P<aircraft>.+)"
