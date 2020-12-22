@@ -35,6 +35,7 @@ from .spawning import HumanAircraftSpawnedLineParser
 from .spawning import ActorDespawnedLineParser
 
 from .takeoff import HumanAircraftTookOffLineParser
+from .targets import TargetStateChangedLineParser
 
 from ._utils import export
 
@@ -57,6 +58,7 @@ DEFAULT_GAMELOG_SUBPARSER_CLASSES = (
   HumanToggledRecordingLineParser,
   HumanAircraftToggledLandingLightsEventLineParser,
   ActorDespawnedLineParser,
+  TargetStateChangedLineParser,
   MissionWonLineParser,
 )
 

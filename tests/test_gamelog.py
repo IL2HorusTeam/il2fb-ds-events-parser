@@ -60,11 +60,12 @@ from il2fb.ds.events.definitions.shootdowns import HumanAircraftShotdownByHumanA
 from il2fb.ds.events.definitions.shootdowns import HumanAircraftShotdownByHumanAircraftAndHumanAircraftEvent
 
 from il2fb.ds.events.definitions.spawning import HumanAircraftSpawnedEvent
-
 from il2fb.ds.events.definitions.spawning import AIAircraftDespawnedEvent
 from il2fb.ds.events.definitions.spawning import HumanAircraftDespawnedEvent
 
 from il2fb.ds.events.definitions.takeoff import HumanAircraftTookOffEvent
+
+from il2fb.ds.events.definitions.targets import TargetStateChangedEvent
 
 from il2fb.ds.events.parsing.connection import HumanConnectionEstablishedLightLineParser
 from il2fb.ds.events.parsing.gamelog import GamelogLineParser
@@ -92,6 +93,14 @@ class GamelogLineParserTestCase(unittest.TestCase):
       (
         MissionWonEvent,
         "[Aug 3, 2020 3:46:08 PM] Mission: RED WON",
+      ),
+      (
+        TargetStateChangedEvent,
+        "[8:33:05 PM] Target 3 Complete",
+      ),
+      (
+        TargetStateChangedEvent,
+        "[8:33:05 PM] Target 4 Failed",
       ),
       (
         HumanConnectionEstablishedLightEvent,
